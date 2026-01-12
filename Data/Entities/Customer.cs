@@ -32,6 +32,7 @@ public partial class Customer
     public string? Emailaddress { get; set; }
 
     public string? Password { get; set; }
+    public int IsAdmin { get; set; }
 
     public virtual ICollection<Disposition> Dispositions { get; set; } = new List<Disposition>();
 }

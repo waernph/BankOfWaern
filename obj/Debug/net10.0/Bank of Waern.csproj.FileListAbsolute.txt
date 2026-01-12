@@ -216,3 +216,4 @@ C:\Users\waern\Documents\dotnet\dotnet_forts\Inlämningsuppgifter\Inlämning 2\B
 C:\Users\waern\Documents\dotnet\dotnet_forts\Inlämningsuppgifter\Inlämning 2\Bank of Waern\Bank of Waern\obj\Debug\net10.0\Bank of Waern.pdb
 C:\Users\waern\Documents\dotnet\dotnet_forts\Inlämningsuppgifter\Inlämning 2\Bank of Waern\Bank of Waern\obj\Debug\net10.0\Bank of Waern.genruntimeconfig.cache
 C:\Users\waern\Documents\dotnet\dotnet_forts\Inlämningsuppgifter\Inlämning 2\Bank of Waern\Bank of Waern\obj\Debug\net10.0\ref\Bank of Waern.dll
+C:\Users\waern\Documents\dotnet\dotnet_forts\Inlämningsuppgifter\Inlämning 2\Bank of Waern\Bank of Waern\obj\Debug\net10.0\Bank of Waern.sourcelink.json
