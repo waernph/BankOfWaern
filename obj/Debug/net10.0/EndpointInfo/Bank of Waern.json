@@ -1,0 +1,43 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Bank of Waern",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Customer": {
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearer": [
+              null
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "description": "Klistra in JWT-token här",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Customer"
+    }
+  ]
+}

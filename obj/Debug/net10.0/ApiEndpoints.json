@@ -1,0 +1,12 @@
+[
+  {
+    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
+    "Method": "GetAllCustomers",
+    "RelativePath": "api/Customer",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]
