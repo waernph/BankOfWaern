@@ -1,4 +1,5 @@
-﻿using BrewHub.Core.Interfaces;
+﻿using Bank_of_Waern.Data.Entities;
+using BrewHub.Core.Interfaces;
 using System.Security.Claims;
 
 namespace BrewHub.Core.Services
@@ -12,9 +13,9 @@ namespace BrewHub.Core.Services
             _jwt = httpContextAccessor;
         }
 
-        public async Task<int> GetLoggedInUserId()
+        public async Task<string> GetLoggedInUserId()
         {
-            return int.Parse(_jwt.HttpContext.User.FindFirst(ClaimTypes.UserData).Value);
+            return _jwt.HttpContext.User.FindFirst(ClaimTypes.Email).Value;
         }
     }
 }

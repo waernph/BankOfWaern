@@ -2,6 +2,7 @@
 using Bank_of_Waern.Core.Services;
 using BrewHub.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,12 +21,35 @@ namespace Bank_of_Waern.Controllers
             _jwtGetter = jwtGetter;
         }
 
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> GetAllCustomers()
+        [Authorize(Roles = "Admin")]
+        [HttpPost("createCustomer")]
+        public async Task<IActionResult> CreateCustomer(string firstName, string lastName, string gender, string street, string city, string zip, string country, string countryCode, string birthday, string emailAdress, string phoneCountryCode, string phoneNumber)
         {
-            return Ok(await _customerService.GetAllCustomers());
+            try
+            {
+                var newCustomer = await _customerService.CreateCustomer(firstName, lastName, gender, street, city, zip, country, countryCode, birthday, emailAdress, phoneCountryCode, phoneNumber);
+                return Ok(newCustomer);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+        [Authorize]
+        [HttpPut("changePassword")]
+        public async Task<IActionResult> ChangePassword(string oldPassword, string newPassword, string confirmPassword)
+        {
+            try
+            {
+                await _customerService.ChangePassword(oldPassword, newPassword, confirmPassword);
+                return Ok("Password changed successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         [AllowAnonymous]
         [HttpPost("login")]

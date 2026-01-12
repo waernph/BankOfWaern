@@ -12,7 +12,7 @@ using Microsoft.OpenApi;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-var connString = builder.Configuration["connString"];
+var connString = builder.Configuration["connString"]; //Secret key för connection string
 var apiKey = builder.Configuration["ApiKey"]!;  //Secret key för JWT
 
 builder.Services.AddDbContext<BankAppDataContext>(opt => opt.UseSqlServer(connString));
@@ -73,9 +73,5 @@ app.UseSwaggerUI();
 
 
 app.Run();
-
-// ConnString: Data Source=PHILIPWAERN;Initial Catalog=Northwind;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;
-
-//Scaffold-DbContext "Data Source=PHILIPWAERN;Initial Catalog=Bank of Waern;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -ContextDir Data -OutputDir Data/Entities 
 
 // ApiKey1948051&%%485734579453%&//1203859

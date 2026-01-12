@@ -19,10 +19,6 @@ namespace Bank_of_Waern.Core.Services
             _config = config;
         }
 
-        public async Task<List<Customer>> GetAllCustomers()
-        {
-            return await _customerRepo.GetAllCustomers();
-        }
         public async Task<Customer> Login(string birthday, string email, string password)
         {
             var user = await _customerRepo.Login(birthday, email);
@@ -56,6 +52,7 @@ namespace Bank_of_Waern.Core.Services
                 List<Claim> claims = new List<Claim>();
                 claims.Add(new Claim(ClaimTypes.Role, userRole));
                 claims.Add(new Claim(ClaimTypes.DateOfBirth, birthdayString));
+                claims.Add(new Claim(ClaimTypes.Email, user.Emailaddress!));
                 var IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["ApiKey"]!));
                 var signinCredentials = new SigningCredentials(IssuerSigningKey, SecurityAlgorithms.HmacSha256);
 
@@ -71,6 +68,24 @@ namespace Bank_of_Waern.Core.Services
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
                 return tokenString;
+            }
+        }
+
+        public async Task<Customer> CreateCustomer(string firstName, string lastName, string gender, string street, string city, string zip, string country, string countryCode, string birthday, string emailAdress, string phoneCountryCode, string phoneNumber)
+        {
+            var newCustomer = await _customerRepo.CreateCustomer(firstName, lastName, gender, street, city, zip, country, countryCode, birthday, emailAdress, phoneCountryCode, phoneNumber);
+            return newCustomer;
+        }
+
+        public async Task ChangePassword(string oldPassword, string newPassword, string confirmPassword)
+        {
+            if (newPassword != confirmPassword)
+            {
+                throw new Exception("New password and confirm password do not match.");
+            }
+            else
+            {
+                await _customerRepo.ChangePassword(oldPassword, newPassword);
             }
         }
     }

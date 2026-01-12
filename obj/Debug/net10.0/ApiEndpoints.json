@@ -1,12 +1,99 @@
 [
   {
     "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
-    "Method": "GetAllCustomers",
-    "RelativePath": "api/Customer",
-    "HttpMethod": "GET",
+    "Method": "ChangePassword",
+    "RelativePath": "api/Customer/changePassword",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "oldPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "newPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "confirmPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
+    "Method": "CreateCustomer",
+    "RelativePath": "api/Customer/createCustomer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "firstName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "lastName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "gender",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "street",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "city",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "zip",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "country",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "countryCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "birthday",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "emailAdress",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "phoneCountryCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "phoneNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {

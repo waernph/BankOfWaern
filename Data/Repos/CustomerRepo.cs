@@ -1,5 +1,7 @@
 ﻿using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
+using BrewHub.Core.Interfaces;
+using BrewHub.Core.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bank_of_Waern.Data.Repos
@@ -7,10 +9,45 @@ namespace Bank_of_Waern.Data.Repos
     public class CustomerRepo : ICustomerRepo
     {
         private readonly BankAppDataContext _context;
+        private readonly IJwtGetter _jwtGetter;
 
-        public CustomerRepo(BankAppDataContext context)
+        public CustomerRepo(BankAppDataContext context, IJwtGetter jwtGetter)
         {
             _context = context;
+            _jwtGetter = jwtGetter;
+        }
+
+        public async Task ChangePassword(string oldPassword, string newPassword)
+        {
+            var loggedInUserEmail = await _jwtGetter.GetLoggedInUserId(); 
+            var user = await _context.Customers
+                .FirstOrDefaultAsync(c => c.Emailaddress == loggedInUserEmail);
+            user.Password = newPassword;
+            _context.Customers.Update(user);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Customer> CreateCustomer(string firstName, string lastName, string gender, string street, string city, string zip, string country, string countryCode, string birthday, string emailAdress, string phoneCountryCode, string phoneNumber)
+        {
+            _context.Customers.Add(new Customer
+            {
+                Givenname = firstName,
+                Surname = lastName,
+                Gender = gender,
+                Streetaddress = street,
+                City = city,
+                Zipcode = zip,
+                Country = country,
+                CountryCode = countryCode,
+                Birthday = DateOnly.ParseExact(birthday, "yyyyMMdd"),
+                Emailaddress = emailAdress,
+                Telephonecountrycode = phoneCountryCode,
+                Telephonenumber = phoneNumber
+            });
+            var newCustomer = await _context.Customers
+                .FirstOrDefaultAsync(c => c.Givenname == firstName && c.Surname == lastName && c.Birthday == DateOnly.ParseExact(birthday, "yyyyMMdd"));
+            await _context.SaveChangesAsync();
+            return newCustomer;
         }
 
         public async Task<string> GeneratePassword(Customer user)
@@ -22,10 +59,6 @@ namespace Bank_of_Waern.Data.Repos
             return user.Password;
         }
 
-        public Task<List<Customer>> GetAllCustomers()
-        {
-            return _context.Customers.ToListAsync();
-        }
 
         public async Task<Customer> Login(string birthday, string email)
         {

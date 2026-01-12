@@ -13,9 +13,6 @@ namespace Bank_of_Waern.Data.Repos
             _context = context;
         }
 
-        public async Task<List<Account>> GetAllAccounts()
-        {
-            return await _context.Accounts.ToListAsync();
-        }
+
     }
 }
