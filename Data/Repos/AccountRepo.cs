@@ -13,6 +13,21 @@ namespace Bank_of_Waern.Data.Repos
             _context = context;
         }
 
+        public async Task<Account> CreateAccount(string frequency, decimal balance, int accountTypeId, string? accountTypeDescription)
+        {
+            var newAccount = new Account
+            {
+                Frequency = frequency,
+                Created = DateOnly.FromDateTime(DateTime.Now),
+                Balance = balance,
+                AccountTypesId = accountTypeId
+            };
+            _context.Accounts.Add(newAccount);
+            await _context.SaveChangesAsync();
+            return newAccount;
+
+        }
+
 
     }
 }

@@ -42,7 +42,14 @@ builder.Services.AddAuthentication(opt =>
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
+builder.Services.AddScoped<IAccountRepo, AccountRepo>();
+builder.Services.AddScoped<IAccountTypeRepo, AccountTypeRepo>();
+builder.Services.AddScoped<IDispositionRepo, DispositionRepo>();
+
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAccountTypeService, AccountTypeService>();
+builder.Services.AddScoped<IDispositionService, DispositionService>();
 builder.Services.AddScoped<IJwtGetter, JwtGetter>();
 
 builder.Services.AddSwaggerGen(options =>

@@ -92,6 +92,36 @@
         "Name": "phoneNumber",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "type",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "frequency",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "balance",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "accountType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "accountTypeDescription",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "dispositionType",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

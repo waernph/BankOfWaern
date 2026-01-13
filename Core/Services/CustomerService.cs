@@ -26,7 +26,7 @@ namespace Bank_of_Waern.Core.Services
             {
                 var tempPassword = await _customerRepo.GeneratePassword(user);
                 throw new Exception($"It looks like you don't have a password. We sent a SMS temporary password... {tempPassword}");
-                
+
             }
             else if (user == null)
             {
@@ -71,9 +71,13 @@ namespace Bank_of_Waern.Core.Services
             }
         }
 
-        public async Task<Customer> CreateCustomer(string firstName, string lastName, string gender, string street, string city, string zip, string country, string countryCode, string birthday, string emailAdress, string phoneCountryCode, string phoneNumber)
+        public async Task<Customer> CreateCustomer(string firstName, string lastName, string gender, string street,
+            string city, string zip, string country, string countryCode, string birthday, string emailAdress,
+            string phoneCountryCode, string phoneNumber)
         {
-            var newCustomer = await _customerRepo.CreateCustomer(firstName, lastName, gender, street, city, zip, country, countryCode, birthday, emailAdress, phoneCountryCode, phoneNumber);
+            var newCustomer = await _customerRepo.CreateCustomer(firstName, lastName, gender, street,
+             city, zip, country, countryCode, birthday, emailAdress,
+             phoneCountryCode, phoneNumber);
             return newCustomer;
         }
 

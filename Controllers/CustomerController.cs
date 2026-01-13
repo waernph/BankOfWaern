@@ -1,10 +1,12 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
 using Bank_of_Waern.Core.Services;
+using Bank_of_Waern.Data.Entities;
 using BrewHub.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi;
 
 namespace Bank_of_Waern.Controllers
 {
@@ -13,22 +15,36 @@ namespace Bank_of_Waern.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
+        private readonly IAccountService _accountService;
+        private readonly IAccountTypeService _accountTypeService;
+        private readonly IDispositionService _dispositionService;
         private readonly IJwtGetter _jwtGetter;
 
-        public CustomerController(ICustomerService customerService, IJwtGetter jwtGetter)
+        public CustomerController(ICustomerService customerService,
+            IAccountService accountService, IAccountTypeService accountTypeService, 
+            IDispositionService dispositionService, IJwtGetter jwtGetter)
         {
             _customerService = customerService;
+            _accountService = accountService;
+            _accountTypeService = accountTypeService;
+            _dispositionService = dispositionService;
             _jwtGetter = jwtGetter;
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost("createCustomer")]
-        public async Task<IActionResult> CreateCustomer(string firstName, string lastName, string gender, string street, string city, string zip, string country, string countryCode, string birthday, string emailAdress, string phoneCountryCode, string phoneNumber)
+        public async Task<IActionResult> CreateCustomer(string firstName, string lastName, string gender, string street,
+            string city, string zip, string country, string countryCode, string birthday, string emailAdress,
+            string phoneCountryCode, string phoneNumber, string frequency,
+            decimal balance, string accountType, string? accountTypeDescription, string dispositionType)
         {
             try
             {
                 var newCustomer = await _customerService.CreateCustomer(firstName, lastName, gender, street, city, zip, country, countryCode, birthday, emailAdress, phoneCountryCode, phoneNumber);
-                return Ok(newCustomer);
+                var accountTypeReturn = await _accountTypeService.CreateAccountType(accountType, accountTypeDescription);
+                var newAccount = await _accountService.CreateAccount(frequency, balance, accountTypeReturn.AccountTypeId, accountTypeDescription);
+                var newDisposition = await _dispositionService.SetupDisposition(newCustomer.CustomerId, newAccount.AccountId, dispositionType);
+                return Ok("New customer created!");
             }
             catch (Exception ex)
             {
@@ -65,7 +81,7 @@ namespace Bank_of_Waern.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            
+
         }
     }
 }

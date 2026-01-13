@@ -3,6 +3,7 @@ using Bank_of_Waern.Data.Interfaces;
 using BrewHub.Core.Interfaces;
 using BrewHub.Core.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 
 namespace Bank_of_Waern.Data.Repos
 {
@@ -27,9 +28,11 @@ namespace Bank_of_Waern.Data.Repos
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Customer> CreateCustomer(string firstName, string lastName, string gender, string street, string city, string zip, string country, string countryCode, string birthday, string emailAdress, string phoneCountryCode, string phoneNumber)
+        public async Task<Customer> CreateCustomer(string firstName, string lastName, string gender, string street, 
+            string city, string zip, string country, string countryCode, string birthday, string emailAdress, 
+            string phoneCountryCode, string phoneNumber)
         {
-            _context.Customers.Add(new Customer
+            var newCustomer = new Customer
             {
                 Givenname = firstName,
                 Surname = lastName,
@@ -43,9 +46,8 @@ namespace Bank_of_Waern.Data.Repos
                 Emailaddress = emailAdress,
                 Telephonecountrycode = phoneCountryCode,
                 Telephonenumber = phoneNumber
-            });
-            var newCustomer = await _context.Customers
-                .FirstOrDefaultAsync(c => c.Givenname == firstName && c.Surname == lastName && c.Birthday == DateOnly.ParseExact(birthday, "yyyyMMdd"));
+            };
+            _context.Customers.Add(newCustomer);
             await _context.SaveChangesAsync();
             return newCustomer;
         }
