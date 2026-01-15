@@ -5,6 +5,6 @@ namespace Bank_of_Waern.Data.Interfaces
     public interface IAdminRepo
     {
         public Task<Admin> AdminLogin(string email, string password);
-        public Task ApplyForLoad(decimal amount, int duration, int accountId, int customerId, decimal payments);
+        public Task<Loan> ApplyForLoad(decimal amount, int duration, int accountId, int customerId, decimal payments);
     }
 }

@@ -76,13 +76,14 @@ namespace Bank_of_Waern.Controllers
             {
                 await _adminService.ApplyForLoan(amount, duration, accountId, customerId);
                 dbTransaction.Commit();
+                return Ok("Loan granted and completed");
             }
             catch (Exception ex)
             {
                 dbTransaction.Rollback();
                 return BadRequest(ex.Message);
             }
-            return Ok();
+            
         }
     }
 }

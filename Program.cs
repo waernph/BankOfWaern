@@ -1,22 +1,28 @@
+using AutoMapper;
 using Bank_of_Waern.Core.Interfaces;
 using Bank_of_Waern.Core.Services;
 using Bank_of_Waern.Data;
 using Bank_of_Waern.Data.Interfaces;
+using Bank_of_Waern.Data.Profiles;
 using Bank_of_Waern.Data.Repos;
 using BrewHub.Core.Interfaces;
 using BrewHub.Core.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var connString = builder.Configuration["connString"]; //Secret key för connection string
 var apiKey = builder.Configuration["ApiKey"]!;  //Secret key för JWT
 
-builder.Services.AddDbContext<BankAppDataContext>(opt => opt.UseSqlServer(connString));
 
+
+builder.Services.AddDbContext<BankAppDataContext>(opt => opt.UseSqlServer(connString));
+builder.Services.AddAutoMapper(cfg => { }, typeof(Profile));
 
 
 //JWT
@@ -40,6 +46,7 @@ builder.Services.AddAuthentication(opt =>
     });
 
 builder.Services.AddControllers();
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
 builder.Services.AddScoped<IAccountRepo, AccountRepo>();
@@ -53,6 +60,8 @@ builder.Services.AddScoped<IAccountTypeService, AccountTypeService>();
 builder.Services.AddScoped<IDispositionService, DispositionService>();
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+
+
 
 builder.Services.AddSwaggerGen(options =>
 {

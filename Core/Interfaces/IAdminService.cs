@@ -1,4 +1,5 @@
-﻿using Bank_of_Waern.Data.Entities;
+﻿using Bank_of_Waern.Data.DTOs;
+using Bank_of_Waern.Data.Entities;
 
 namespace Bank_of_Waern.Core.Interfaces
 {
