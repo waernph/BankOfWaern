@@ -29,7 +29,7 @@ namespace Bank_of_Waern.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet]
+        [HttpGet("AdminLogin")]
         public async Task<IActionResult> AdminLogin(string email, string password)
         {
             try
@@ -42,8 +42,12 @@ namespace Bank_of_Waern.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            
-            
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost("NewCustomer")]
+        public async Task<IActionResult> NewCustomer()
+        {
+            return Ok();
         }
     }
 }
