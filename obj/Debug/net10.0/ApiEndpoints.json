@@ -22,6 +22,37 @@
   },
   {
     "ContainingType": "Bank_of_Waern.Controllers.AdminController",
+    "Method": "LoanApplocation",
+    "RelativePath": "api/Admin/LoanApplication",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "amount",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "duration",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "accountId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "customerId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bank_of_Waern.Controllers.AdminController",
     "Method": "NewCustomer",
     "RelativePath": "api/Admin/NewCustomer",
     "HttpMethod": "POST",
