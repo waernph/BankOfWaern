@@ -1,5 +1,26 @@
 [
   {
+    "ContainingType": "Bank_of_Waern.Controllers.AdminController",
+    "Method": "AdminLogin",
+    "RelativePath": "api/Admin",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "password",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
     "Method": "ChangePassword",
     "RelativePath": "api/Customer/changePassword",
@@ -90,11 +111,6 @@
       },
       {
         "Name": "phoneNumber",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "type",
         "Type": "System.String",
         "IsRequired": false
       },

@@ -18,17 +18,17 @@ namespace Bank_of_Waern.Controllers
         private readonly IAccountService _accountService;
         private readonly IAccountTypeService _accountTypeService;
         private readonly IDispositionService _dispositionService;
-        private readonly IJwtGetter _jwtGetter;
+        private readonly IJwtHelper _jwtHelper;
 
         public CustomerController(ICustomerService customerService,
             IAccountService accountService, IAccountTypeService accountTypeService, 
-            IDispositionService dispositionService, IJwtGetter jwtGetter)
+            IDispositionService dispositionService, IJwtHelper jwtHelper)
         {
             _customerService = customerService;
             _accountService = accountService;
             _accountTypeService = accountTypeService;
             _dispositionService = dispositionService;
-            _jwtGetter = jwtGetter;
+            _jwtHelper = jwtHelper;
         }
 
         [Authorize(Roles = "Admin")]
@@ -74,7 +74,7 @@ namespace Bank_of_Waern.Controllers
             try
             {
                 var user = await _customerService.Login(birthday, email, password);
-                var token = await _customerService.GenerateToken(user);
+                var token = await _jwtHelper.GetToken("User", email);
                 return Ok(new { token = token });
             }
             catch (Exception ex)

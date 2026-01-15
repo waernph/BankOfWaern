@@ -25,7 +25,7 @@ namespace Bank_of_Waern.Core.Services
             if (user.Password == null)
             {
                 var tempPassword = await _customerRepo.GeneratePassword(user);
-                throw new Exception($"It looks like you don't have a password. We sent a SMS temporary password... {tempPassword}");
+                throw new Exception($"It looks like you don't have a password. We sent an email with a temporary password... {tempPassword}");
 
             }
             else if (user == null)
@@ -39,37 +39,7 @@ namespace Bank_of_Waern.Core.Services
             else
                 return user;
         }
-        public async Task<string> GenerateToken(Customer user)
-        {
-            {
-                var userRole = "";
-                if (user.IsAdmin == 1)
-                    userRole = "Admin";
-                else
-                    userRole = "User";
-                var birthdayString = user.Birthday.ToString().Trim(new char['-']);
-                //var userId = user.UserId;
-                List<Claim> claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.Role, userRole));
-                claims.Add(new Claim(ClaimTypes.DateOfBirth, birthdayString));
-                claims.Add(new Claim(ClaimTypes.Email, user.Emailaddress!));
-                var IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["ApiKey"]!));
-                var signinCredentials = new SigningCredentials(IssuerSigningKey, SecurityAlgorithms.HmacSha256);
-
-
-                var tokenOptions = new JwtSecurityToken(
-                        issuer: "http://localhost:5256",
-                        audience: "http://localhost:5256",
-                        claims: claims,
-                        expires: DateTime.Now.AddMinutes(20),
-                        signingCredentials: signinCredentials);
-
-
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-
-                return tokenString;
-            }
-        }
+        
 
         public async Task<Customer> CreateCustomer(string firstName, string lastName, string gender, string street,
             string city, string zip, string country, string countryCode, string birthday, string emailAdress,

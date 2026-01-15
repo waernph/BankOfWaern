@@ -20,6 +20,8 @@ public partial class BankAppDataContext : DbContext
 
     public virtual DbSet<AccountType> AccountTypes { get; set; }
 
+    public virtual DbSet<Admin> Admins { get; set; }
+
     public virtual DbSet<Card> Cards { get; set; }
 
     public virtual DbSet<Customer> Customers { get; set; }
@@ -30,6 +32,9 @@ public partial class BankAppDataContext : DbContext
 
     public virtual DbSet<Transaction> Transactions { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=PHILIPWAERN;Initial Catalog=BankAppData;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -57,6 +62,12 @@ public partial class BankAppDataContext : DbContext
             entity.Property(e => e.TypeName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<Admin>(entity =>
+        {
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.Password).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Card>(entity =>

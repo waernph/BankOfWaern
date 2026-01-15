@@ -2,8 +2,9 @@
 
 namespace BrewHub.Core.Interfaces
 {
-    public interface IJwtGetter
+    public interface IJwtHelper
     {
         public Task<string> GetLoggedInUserId();
+        public Task<string> GetToken(string role, string emailAddress);
     }
 }

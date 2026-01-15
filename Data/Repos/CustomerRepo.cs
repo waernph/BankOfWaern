@@ -10,9 +10,9 @@ namespace Bank_of_Waern.Data.Repos
     public class CustomerRepo : ICustomerRepo
     {
         private readonly BankAppDataContext _context;
-        private readonly IJwtGetter _jwtGetter;
+        private readonly IJwtHelper _jwtGetter;
 
-        public CustomerRepo(BankAppDataContext context, IJwtGetter jwtGetter)
+        public CustomerRepo(BankAppDataContext context, IJwtHelper jwtGetter)
         {
             _context = context;
             _jwtGetter = jwtGetter;

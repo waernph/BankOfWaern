@@ -45,12 +45,14 @@ builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
 builder.Services.AddScoped<IAccountRepo, AccountRepo>();
 builder.Services.AddScoped<IAccountTypeRepo, AccountTypeRepo>();
 builder.Services.AddScoped<IDispositionRepo, DispositionRepo>();
+builder.Services.AddScoped<IAdminRepo, AdminRepo>();
 
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAccountTypeService, AccountTypeService>();
 builder.Services.AddScoped<IDispositionService, DispositionService>();
-builder.Services.AddScoped<IJwtGetter, JwtGetter>();
+builder.Services.AddScoped<IJwtHelper, JwtHelper>();
+builder.Services.AddScoped<IAdminService, AdminService>();
 
 builder.Services.AddSwaggerGen(options =>
 {
