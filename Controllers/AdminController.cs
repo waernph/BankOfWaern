@@ -63,6 +63,12 @@ namespace Bank_of_Waern.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles ="Admin")]
+        [HttpPost("LoanApplication")]
+        public async Task<IActionResult> LoanApplocation()
+        {
+            return Ok();
+        }
     }
 }
 
