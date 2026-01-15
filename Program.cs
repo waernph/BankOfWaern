@@ -72,13 +72,12 @@ var app = builder.Build();
 app.UseAuthentication();
 app.UseRouting();
 app.UseAuthorization();
-app.UseEndpoints( endpoints =>
+app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
 app.UseSwagger();
 app.UseSwaggerUI(opt => opt.EnableTryItOutByDefault());
-
 
 
 app.Run();

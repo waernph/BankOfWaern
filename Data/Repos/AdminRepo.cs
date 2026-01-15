@@ -25,5 +25,34 @@ namespace Bank_of_Waern.Data.Repos
                 return admin;
             
         }
+
+        public async Task ApplyForLoad(decimal amount, int duration, int accountId, int customerId, decimal payments)
+        {
+            var account = _context.Accounts.Where(a =>a.AccountId == accountId).FirstOrDefault();
+            var disposition = _context.Dispositions.Where(d => d.AccountId == accountId).FirstOrDefault();
+
+            if (account == null)
+                throw new Exception("Not a registered customer.");
+            else if (disposition.AccountId != accountId)
+            {
+                throw new Exception("Entered AccountId does not match AccountId connectoed to account");
+            }
+            else
+            {
+                var newLoan = new Loan
+                {
+                    AccountId = accountId,
+                    Amount = amount,
+                    Duration = duration,
+                    Date = DateOnly.FromDateTime(DateTime.Now),
+                    Payments = payments,
+                    Status = "Running"
+                };
+                account.Balance = amount;
+                _context.Loans.Add(newLoan);
+                _context.Accounts.Update(account);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

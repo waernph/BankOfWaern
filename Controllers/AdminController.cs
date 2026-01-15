@@ -1,7 +1,9 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
+using Bank_of_Waern.Data;
 using BrewHub.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bank_of_Waern.Controllers
 {
@@ -15,10 +17,11 @@ namespace Bank_of_Waern.Controllers
         private readonly IDispositionService _dispositionService;
         private readonly IJwtHelper _jwtHelper;
         private readonly IAdminService _adminService;
+        private readonly BankAppDataContext _context;
 
-        public AdminController(ICustomerService customerService, IAccountService accountService,
-            IAccountTypeService accountTypeService, IDispositionService dispositionService,
-            IJwtHelper jwtHelper, IAdminService adminService)
+        public AdminController(ICustomerService customerService, IAccountService accountService, 
+            IAccountTypeService accountTypeService, IDispositionService dispositionService, 
+            IJwtHelper jwtHelper, IAdminService adminService, BankAppDataContext context)
         {
             _customerService = customerService;
             _accountService = accountService;
@@ -26,6 +29,7 @@ namespace Bank_of_Waern.Controllers
             _dispositionService = dispositionService;
             _jwtHelper = jwtHelper;
             _adminService = adminService;
+            _context = context;
         }
 
         [AllowAnonymous]
@@ -65,8 +69,19 @@ namespace Bank_of_Waern.Controllers
         }
         [Authorize(Roles ="Admin")]
         [HttpPost("LoanApplication")]
-        public async Task<IActionResult> LoanApplocation()
+        public async Task<IActionResult> LoanApplocation(int amount, int duration, int accountId, int customerId)
         {
+            using var dbTransaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                await _adminService.ApplyForLoan(amount, duration, accountId, customerId);
+                dbTransaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                dbTransaction.Rollback();
+                return BadRequest(ex.Message);
+            }
             return Ok();
         }
     }

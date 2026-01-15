@@ -5,5 +5,6 @@ namespace Bank_of_Waern.Core.Interfaces
     public interface IAdminService
     {
         public Task<Admin> AdminLogin(string email, string password);
+        public Task ApplyForLoan(decimal amount, int duration, int accountId, int customerId);
     }
 }

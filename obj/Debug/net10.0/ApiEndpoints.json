@@ -22,6 +22,16 @@
   },
   {
     "ContainingType": "Bank_of_Waern.Controllers.AdminController",
+    "Method": "LoanApplocation",
+    "RelativePath": "api/Admin/LoanApplication",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bank_of_Waern.Controllers.AdminController",
     "Method": "NewCustomer",
     "RelativePath": "api/Admin/NewCustomer",
     "HttpMethod": "POST",
