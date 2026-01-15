@@ -23,9 +23,14 @@ namespace Bank_of_Waern.Data.Repos
             var loggedInUserEmail = await _jwtGetter.GetLoggedInUserId(); 
             var user = await _context.Customers
                 .FirstOrDefaultAsync(c => c.Emailaddress == loggedInUserEmail);
-            user.Password = newPassword;
-            _context.Customers.Update(user);
-            await _context.SaveChangesAsync();
+            if (user.Password != oldPassword)
+                throw new Exception("You entered the wrong current password");
+            else
+            {
+                user.Password = newPassword;
+                _context.Customers.Update(user);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<Customer> CreateCustomer(string firstName, string lastName, string gender, string street, 
@@ -45,7 +50,8 @@ namespace Bank_of_Waern.Data.Repos
                 Birthday = DateOnly.ParseExact(birthday, "yyyyMMdd"),
                 Emailaddress = emailAdress,
                 Telephonecountrycode = phoneCountryCode,
-                Telephonenumber = phoneNumber
+                Telephonenumber = phoneNumber,
+                Password = Guid.NewGuid().ToString().Substring(0, 16)
             };
             _context.Customers.Add(newCustomer);
             await _context.SaveChangesAsync();

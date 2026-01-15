@@ -31,26 +31,6 @@ namespace Bank_of_Waern.Controllers
             _jwtHelper = jwtHelper;
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost("createCustomer")]
-        public async Task<IActionResult> CreateCustomer(string firstName, string lastName, string gender, string street,
-            string city, string zip, string country, string countryCode, string birthday, string emailAdress,
-            string phoneCountryCode, string phoneNumber, string frequency,
-            decimal balance, string accountType, string? accountTypeDescription, string dispositionType)
-        {
-            try
-            {
-                var newCustomer = await _customerService.CreateCustomer(firstName, lastName, gender, street, city, zip, country, countryCode, birthday, emailAdress, phoneCountryCode, phoneNumber);
-                var accountTypeReturn = await _accountTypeService.CreateAccountType(accountType, accountTypeDescription);
-                var newAccount = await _accountService.CreateAccount(frequency, balance, accountTypeReturn.AccountTypeId, accountTypeDescription);
-                var newDisposition = await _dispositionService.SetupDisposition(newCustomer.CustomerId, newAccount.AccountId, dispositionType);
-                return Ok("New customer created!");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
         [Authorize]
         [HttpPut("changePassword")]
         public async Task<IActionResult> ChangePassword(string oldPassword, string newPassword, string confirmPassword)
