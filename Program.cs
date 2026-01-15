@@ -77,10 +77,9 @@ app.UseEndpoints( endpoints =>
     endpoints.MapControllers();
 });
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(opt => opt.EnableTryItOutByDefault());
 
 
 
 app.Run();
 
-// ApiKey1948051&%%485734579453%&//1203859

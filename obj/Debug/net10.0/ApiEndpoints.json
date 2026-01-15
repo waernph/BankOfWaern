@@ -2,7 +2,7 @@
   {
     "ContainingType": "Bank_of_Waern.Controllers.AdminController",
     "Method": "AdminLogin",
-    "RelativePath": "api/Admin",
+    "RelativePath": "api/Admin/AdminLogin",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -21,35 +21,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
-    "Method": "ChangePassword",
-    "RelativePath": "api/Customer/changePassword",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "oldPassword",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "newPassword",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "confirmPassword",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
-    "Method": "CreateCustomer",
-    "RelativePath": "api/Customer/createCustomer",
+    "ContainingType": "Bank_of_Waern.Controllers.AdminController",
+    "Method": "NewCustomer",
+    "RelativePath": "api/Admin/NewCustomer",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -136,6 +110,32 @@
       },
       {
         "Name": "dispositionType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/Customer/changePassword",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "oldPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "newPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "confirmPassword",
         "Type": "System.String",
         "IsRequired": false
       }

@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Admin": {
+    "/api/Admin/AdminLogin": {
       "get": {
         "tags": [
           "Admin"
@@ -33,10 +33,10 @@
         }
       }
     },
-    "/api/Customer/createCustomer": {
+    "/api/Admin/NewCustomer": {
       "post": {
         "tags": [
-          "Customer"
+          "Admin"
         ],
         "parameters": [
           {
