@@ -83,7 +83,7 @@ app.UseRouting();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllers();
+    _ = endpoints.MapControllers();
 });
 app.UseSwagger();
 app.UseSwaggerUI(opt => opt.EnableTryItOutByDefault());
