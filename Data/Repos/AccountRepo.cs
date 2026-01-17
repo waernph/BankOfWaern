@@ -28,6 +28,13 @@ namespace Bank_of_Waern.Data.Repos
 
         }
 
-
+        public async Task<List<Account>> GetAllAccounts(int customerId, Disposition disposition)
+        {
+            List<Account> accounts = await _context.Accounts
+                                            .Where(a => a.AccountId == disposition.AccountId)
+                                            .ToListAsync();
+            
+            return accounts;
+        }
     }
 }

@@ -1,12 +1,10 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
-using Bank_of_Waern.Core.Services;
-using Bank_of_Waern.Data.Entities;
+
 using BrewHub.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi;
+
 
 namespace Bank_of_Waern.Controllers
 {
@@ -21,7 +19,7 @@ namespace Bank_of_Waern.Controllers
         private readonly IJwtHelper _jwtHelper;
 
         public CustomerController(ICustomerService customerService,
-            IAccountService accountService, IAccountTypeService accountTypeService, 
+            IAccountService accountService, IAccountTypeService accountTypeService,
             IDispositionService dispositionService, IJwtHelper jwtHelper)
         {
             _customerService = customerService;
@@ -61,7 +59,14 @@ namespace Bank_of_Waern.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
 
+        [Authorize, HttpPost("Accounts")]
+        public async Task<IActionResult> Accounts()
+        {
+            var disposition = await _dispositionService.GetDisposition(user);
+            var accounts = await _accountService.GetAllAccounts(customerId, disposition);
+            return Ok(accounts);
         }
     }
 }

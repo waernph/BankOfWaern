@@ -21,6 +21,7 @@ namespace BrewHub.Core.Services
         {
             return _jwt.HttpContext.User.FindFirst(ClaimTypes.Email).Value;
         }
+
         public async Task<string> GetToken(string role, string emailAddress)
         {
             List<Claim> claims = new List<Claim>();
