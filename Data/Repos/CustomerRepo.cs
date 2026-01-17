@@ -20,7 +20,7 @@ namespace Bank_of_Waern.Data.Repos
 
         public async Task ChangePassword(string oldPassword, string newPassword)
         {
-            var loggedInUserEmail = await _jwtGetter.GetLoggedInUserId(); 
+            var loggedInUserEmail = await _jwtGetter.GetLoggedInEmail(); 
             var user = await _context.Customers
                 .FirstOrDefaultAsync(c => c.Emailaddress == loggedInUserEmail);
             if (user.Password != oldPassword)

@@ -52,7 +52,7 @@ namespace Bank_of_Waern.Controllers
             try
             {
                 var user = await _customerService.Login(birthday, email, password);
-                var token = await _jwtHelper.GetToken("User", email);
+                var token = await _jwtHelper.GetToken("User", email, user);
                 return Ok(new { token = token });
             }
             catch (Exception ex)
@@ -64,9 +64,10 @@ namespace Bank_of_Waern.Controllers
         [Authorize, HttpPost("Accounts")]
         public async Task<IActionResult> Accounts()
         {
-            var disposition = await _dispositionService.GetDisposition(user);
+            var customerId = await _jwtHelper.GetLoggedInCustomerId();
+            var disposition = await _dispositionService.GetDisposition(customerId);
             var accounts = await _accountService.GetAllAccounts(customerId, disposition);
-            return Ok(accounts);
+            return Ok(accounts.ToList());
         }
     }
 }

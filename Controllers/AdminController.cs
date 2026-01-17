@@ -39,7 +39,7 @@ namespace Bank_of_Waern.Controllers
             try
             {
                 var admin = await _adminService.AdminLogin(email, password);
-                var token = await _jwtHelper.GetToken("Admin", admin.Email);
+                var token = await _jwtHelper.GetToken("Admin", admin.Email.ToString(), null);
                 return Ok(new { token = token });
             }
             catch (Exception ex)

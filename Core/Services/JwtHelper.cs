@@ -1,4 +1,5 @@
-﻿using BrewHub.Core.Interfaces;
+﻿using Bank_of_Waern.Data.Entities;
+using BrewHub.Core.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -17,16 +18,21 @@ namespace BrewHub.Core.Services
             _config = config;
         }
 
-        public async Task<string> GetLoggedInUserId()
+        public async Task<int> GetLoggedInCustomerId()
         {
-            return _jwt.HttpContext.User.FindFirst(ClaimTypes.Email).Value;
+            return int.Parse(_jwt.HttpContext.User.FindFirst(ClaimTypes.UserData)!.Value);
+        }
+        public async Task<string> GetLoggedInEmail()
+        {
+            return _jwt.HttpContext.User.FindFirst(ClaimTypes.Email)!.Value;
         }
 
-        public async Task<string> GetToken(string role, string emailAddress)
+        public async Task<string> GetToken(string role, string? email, Customer? user)
         {
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Role, role));
-            claims.Add(new Claim(ClaimTypes.Email, emailAddress!));
+            claims.Add(new Claim(ClaimTypes.Email, email.ToString()));
+            claims.Add(new Claim(ClaimTypes.UserData, user.CustomerId.ToString()!));
             var IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["ApiKey"]!));
             var signinCredentials = new SigningCredentials(IssuerSigningKey, SecurityAlgorithms.HmacSha256);
 
