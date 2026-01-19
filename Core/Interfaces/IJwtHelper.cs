@@ -1,10 +1,13 @@
 ﻿using Bank_of_Waern.Data.Entities;
 
-namespace BrewHub.Core.Interfaces
+namespace Bank_of_Waern.Core.Interfaces
 {
     public interface IJwtHelper
     {
-        public Task<string> GetLoggedInUserId();
-        public Task<string> GetToken(string role, string emailAddress);
+        public Task<int> GetLoggedInCustomerId();
+        public Task<string> GetLoggedInEmail();
+        public Task<string> GetToken(string role, string? email, Customer? user);
+
+
     }
 }

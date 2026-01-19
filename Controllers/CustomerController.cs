@@ -1,12 +1,10 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
-using Bank_of_Waern.Core.Services;
-using Bank_of_Waern.Data.Entities;
-using BrewHub.Core.Interfaces;
+
+using Bank_of_Waern.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi;
+
 
 namespace Bank_of_Waern.Controllers
 {
@@ -21,7 +19,7 @@ namespace Bank_of_Waern.Controllers
         private readonly IJwtHelper _jwtHelper;
 
         public CustomerController(ICustomerService customerService,
-            IAccountService accountService, IAccountTypeService accountTypeService, 
+            IAccountService accountService, IAccountTypeService accountTypeService,
             IDispositionService dispositionService, IJwtHelper jwtHelper)
         {
             _customerService = customerService;
@@ -31,8 +29,8 @@ namespace Bank_of_Waern.Controllers
             _jwtHelper = jwtHelper;
         }
 
-        [Authorize]
-        [HttpPut("changePassword")]
+        [Authorize, HttpPut("changePassword")]
+        
         public async Task<IActionResult> ChangePassword(string oldPassword, string newPassword, string confirmPassword)
         {
             try
@@ -47,21 +45,19 @@ namespace Bank_of_Waern.Controllers
         }
 
 
-        [AllowAnonymous]
-        [HttpPost("login")]
+        [AllowAnonymous, HttpPost("login")]
         public async Task<IActionResult> Login(string birthday, string email, string password)
         {
             try
             {
                 var user = await _customerService.Login(birthday, email, password);
-                var token = await _jwtHelper.GetToken("User", email);
+                var token = await _jwtHelper.GetToken("User", email, user);
                 return Ok(new { token = token });
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
-        }
+        }  
     }
 }
