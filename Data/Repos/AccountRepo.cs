@@ -28,6 +28,31 @@ namespace Bank_of_Waern.Data.Repos
 
         }
 
+        public async Task<Account> GetAccount(int accountId, Disposition dispostion)
+        {
+            var account = await _context.Accounts
+                                  .FirstOrDefaultAsync(a => a.AccountId == accountId);
+            if (account == null)
+                throw new Exception("Account not found");
+            else
+                return account;
+        }
 
+        public async Task<List<Account>> GetAllAccounts(int customerId, Disposition disposition)
+        {
+            List<Account> accounts = await _context.Accounts
+                                            .Where(a => a.AccountId == disposition.AccountId)
+                                            .ToListAsync();
+            
+            return accounts;
+        }
+
+        public async Task<decimal> GetBalance(int accountId)
+        {
+            var account = await _context.Accounts
+                                  .FirstOrDefaultAsync(a => a.AccountId == accountId);
+            var balance = account.Balance;
+            return balance;
+        }
     }
 }

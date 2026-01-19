@@ -1,5 +1,6 @@
 ﻿using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bank_of_Waern.Data.Repos
 {
@@ -12,6 +13,12 @@ namespace Bank_of_Waern.Data.Repos
         {
             _context = context;
             _accountContext = accountContext;
+        }
+
+        public async Task<Disposition> GetDisposition(int customerId)
+        {
+            var disposition = await _context.Dispositions.Where(d => d.CustomerId == customerId).FirstOrDefaultAsync();
+            return disposition;
         }
 
         public async Task<Disposition> SetupDisposition(int customerId, int accountId, string type)
