@@ -45,7 +45,7 @@ namespace Bank_of_Waern.Controllers
         }
 
 
-        [AllowAnonymous, HttpPost("login")]
+        [AllowAnonymous, HttpGet("login")]
         public async Task<IActionResult> Login(string birthday, string email, string password)
         {
             try

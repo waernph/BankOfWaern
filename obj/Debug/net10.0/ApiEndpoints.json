@@ -10,6 +10,37 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Bank_of_Waern.Controllers.AccountController",
+    "Method": "CreateNewAccount",
+    "RelativePath": "api/Account/CreateNewAccount",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "frequency",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "balance",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "accountTypeId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "accountTypeDescription",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Bank_of_Waern.Controllers.AdminController",
     "Method": "AdminLogin",
     "RelativePath": "api/Admin/AdminLogin",
@@ -156,7 +187,7 @@
     "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
     "Method": "Login",
     "RelativePath": "api/Customer/login",
-    "HttpMethod": "POST",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [

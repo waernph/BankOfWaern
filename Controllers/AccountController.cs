@@ -22,14 +22,15 @@ namespace Bank_of_Waern.Controllers
             _dispositionService = dispositionService;
         }
 
-        [Authorize, HttpGet("Accounts")]
+        [Authorize]
+        [HttpGet("Accounts")]
         public async Task<IActionResult> Accounts()
         {
             try
             {
                 var customerId = await _jwtHelper.GetLoggedInCustomerId();
-                var disposition = await _dispositionService.GetDisposition(customerId);
-                var accounts = await _accountService.GetAllAccounts(customerId, disposition);
+                var dispositions = await _dispositionService.GetAllDispositions(customerId);
+                var accounts = await _accountService.GetAllAccounts(customerId, dispositions);
                 return Ok(accounts.ToList());
             }
             catch (Exception ex)
@@ -41,12 +42,12 @@ namespace Bank_of_Waern.Controllers
         public async Task<IActionResult> CreateNewAccount(string frequency, decimal balance, int accountTypeId, string? accountTypeDescription)
         {
             var customerId = await _jwtHelper.GetLoggedInCustomerId();
-            var disposition = await _dispositionService.GetDisposition(customerId);
+            //var disposition = await _dispositionService.GetDisposition(customerId);
             var type = "OWNER";
             try
             {
                 var newAccount = await _accountService.CreateAccount(frequency, balance, accountTypeId, accountTypeDescription);
-                await _dispositionService.AddAccountToDisposition(customerId, disposition.DispositionId, newAccount.AccountId, type);
+                await _dispositionService.CreateDisposition(customerId, newAccount.AccountId, type);
                 return Ok($"New accountId: {newAccount.AccountId}");
             }
             catch (Exception ex)

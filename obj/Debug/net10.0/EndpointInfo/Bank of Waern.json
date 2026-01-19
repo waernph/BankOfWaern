@@ -24,6 +24,57 @@
         ]
       }
     },
+    "/api/Account/CreateNewAccount": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "parameters": [
+          {
+            "name": "frequency",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "balance",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "accountTypeId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "accountTypeDescription",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearer": [
+              null
+            ]
+          }
+        ]
+      }
+    },
     "/api/Admin/AdminLogin": {
       "get": {
         "tags": [
@@ -236,7 +287,7 @@
       }
     },
     "/api/Customer/login": {
-      "post": {
+      "get": {
         "tags": [
           "Customer"
         ],

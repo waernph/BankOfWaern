@@ -30,9 +30,9 @@ namespace Bank_of_Waern.Core.Services
             return await _accountRepo.CreateAccount(frequency, balance, accountTypeId, accountTypeDescription);
         }
 
-        public async Task<List<AccountDTO>> GetAllAccounts(int customerId, Disposition disposition)
+        public async Task<List<AccountDTO>> GetAllAccounts(int customerId, List<Disposition> dispositions)
         {
-            var accounts = await _accountRepo.GetAllAccounts(customerId, disposition);
+            var accounts = await _accountRepo.GetAllAccounts(customerId, dispositions);
             var mappedAccounts = _mapper.Map<List<AccountDTO>>(accounts);
             return mappedAccounts;
         }

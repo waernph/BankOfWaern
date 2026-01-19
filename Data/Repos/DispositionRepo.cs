@@ -15,7 +15,7 @@ namespace Bank_of_Waern.Data.Repos
             _accountContext = accountContext;
         }
 
-        public async Task AddAccountToDisposition(int customerId, int dispositionId, int accountId, string type)
+        public async Task CreateDisposition(int customerId, int accountId, string type)
         {
             var newDisposition = new Disposition
             {
@@ -29,9 +29,16 @@ namespace Bank_of_Waern.Data.Repos
 
         }
 
-        public async Task<List<Disposition>> GetDisposition(int customerId)
+        public async Task<List<Disposition>> GetAllDispositions(int customerId)
         {
             var disposition = await _context.Dispositions.Where(d => d.CustomerId == customerId).ToListAsync();
+            return disposition;
+        }
+
+        public async Task<Disposition> GetDisposition(int customerId)
+        {
+            var disposition = await _context.Dispositions
+                                  .FirstOrDefaultAsync(d => d.CustomerId == customerId);
             return disposition;
         }
 

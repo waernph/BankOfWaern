@@ -1,6 +1,7 @@
 ﻿using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Bank_of_Waern.Data.Repos
 {
@@ -38,12 +39,10 @@ namespace Bank_of_Waern.Data.Repos
                 return account;
         }
 
-        public async Task<List<Account>> GetAllAccounts(int customerId, Disposition disposition)
+        public async Task<List<Account>> GetAllAccounts(int customerId, List<Disposition> dispositions)
         {
-            List<Account> accounts = await _context.Accounts
-                                            .Where(a => a.AccountId == disposition.AccountId)
-                                            .ToListAsync();
-            
+            var accountIds = dispositions.Select(d => d.AccountId).ToList();
+            var accounts = await _context.Accounts.Where(a => accountIds.Contains(a.AccountId)).ToListAsync();
             return accounts;
         }
 

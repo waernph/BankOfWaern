@@ -5,7 +5,8 @@ namespace Bank_of_Waern.Core.Interfaces
     public interface IDispositionService
     {
         public Task<Disposition> SetupDisposition(int customerId, int accountId, string dispositionType);
-        public Task<List<Disposition>> GetDisposition(int accountId);
-        public Task AddAccountToDisposition(int customerId, int dispositionId, int accountId, string type);
+        public Task<Disposition> GetDisposition(int accountId);
+        public Task<List<Disposition>> GetAllDispositions(int accountId);
+        public Task CreateDisposition(int customerId, int accountId, string type);
     }
 }

@@ -13,13 +13,19 @@ namespace Bank_of_Waern.Core.Services
             _dispositionRepo = dispositionRepo;
         }
 
-        public async Task AddAccountToDisposition(int customerId, int dispositionId, int accountId, string type)
+        public async Task CreateDisposition(int customerId, int accountId, string type)
         {
-            _dispositionRepo.AddAccountToDisposition(customerId, dispositionId, accountId, type);
+            await _dispositionRepo.CreateDisposition(customerId, accountId, type);
 
         }
 
-        public async Task<List<Disposition>> GetDisposition(int accountId)
+        public async Task<List<Disposition>> GetAllDispositions(int accountId)
+        {
+            var allDispositions = await _dispositionRepo.GetAllDispositions(accountId);
+            return allDispositions;
+        }
+
+        public async Task<Disposition> GetDisposition(int accountId)
         {
             var disposition = await _dispositionRepo.GetDisposition(accountId);
             return disposition;
