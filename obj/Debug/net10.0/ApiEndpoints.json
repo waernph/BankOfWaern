@@ -151,7 +151,7 @@
     "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
     "Method": "Accounts",
     "RelativePath": "api/Customer/Accounts",
-    "HttpMethod": "POST",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
@@ -204,6 +204,22 @@
       {
         "Name": "password",
         "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
+    "Method": "Transactions",
+    "RelativePath": "api/Customer/Transactions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accountId",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],

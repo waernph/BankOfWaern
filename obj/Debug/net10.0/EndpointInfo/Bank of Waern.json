@@ -305,9 +305,38 @@
       }
     },
     "/api/Customer/Accounts": {
-      "post": {
+      "get": {
         "tags": [
           "Customer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearer": [
+              null
+            ]
+          }
+        ]
+      }
+    },
+    "/api/Customer/Transactions": {
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "responses": {
           "200": {

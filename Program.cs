@@ -24,6 +24,7 @@ var apiKey = builder.Configuration["ApiKey"]!;  //Secret key för JWT
 
 builder.Services.AddDbContext<BankAppDataContext>(opt => opt.UseSqlServer(connString));
 builder.Services.AddAutoMapper(cfg => { }, typeof(AccountProfile));
+builder.Services.AddAutoMapper(cfg => { }, typeof(TransactionProfile));
 
 
 
@@ -55,6 +56,7 @@ builder.Services.AddScoped<IAccountRepo, AccountRepo>();
 builder.Services.AddScoped<IAccountTypeRepo, AccountTypeRepo>();
 builder.Services.AddScoped<IDispositionRepo, DispositionRepo>();
 builder.Services.AddScoped<IAdminRepo, AdminRepo>();
+builder.Services.AddScoped<ITransactionRepo, TransactionRepo>();
 
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
@@ -62,6 +64,7 @@ builder.Services.AddScoped<IAccountTypeService, AccountTypeService>();
 builder.Services.AddScoped<IDispositionService, DispositionService>();
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+
 
 
 

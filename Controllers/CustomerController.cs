@@ -61,7 +61,7 @@ namespace Bank_of_Waern.Controllers
             }
         }
 
-        [Authorize, HttpPost("Accounts")]
+        [Authorize, HttpGet("Accounts")]
         public async Task<IActionResult> Accounts()
         {
             try
@@ -74,8 +74,21 @@ namespace Bank_of_Waern.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }  
+        }
+        [Authorize, HttpGet("Transactions")]
+        public async Task<IActionResult> Transactions(int accountId)
+        {
+            try
+            {
+                var customerId = await _jwtHelper.GetLoggedInCustomerId();
+                var transactions = await _accountService.GetAllTransactions(accountId);
+                return Ok(transactions.ToList());
             }
-            
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
