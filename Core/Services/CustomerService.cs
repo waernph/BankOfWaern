@@ -1,6 +1,7 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
 using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
+using BrewHub.Core.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -12,11 +13,13 @@ namespace Bank_of_Waern.Core.Services
     {
         private readonly ICustomerRepo _customerRepo;
         private readonly IConfiguration _config;
+        private readonly IJwtHelper _jwtHelper;
 
-        public CustomerService(ICustomerRepo customerRepo, IConfiguration config)
+        public CustomerService(ICustomerRepo customerRepo, IConfiguration config, IJwtHelper jwtHelper)
         {
             _customerRepo = customerRepo;
             _config = config;
+            _jwtHelper = jwtHelper;
         }
 
         public async Task<Customer> Login(string birthday, string email, string password)
@@ -53,13 +56,15 @@ namespace Bank_of_Waern.Core.Services
 
         public async Task ChangePassword(string oldPassword, string newPassword, string confirmPassword)
         {
+            var customerId = await _jwtHelper.GetLoggedInCustomerId();
+
             if (newPassword != confirmPassword)
             {
                 throw new Exception("New password and confirm password do not match.");
             }
             else
             {
-                await _customerRepo.ChangePassword(oldPassword, newPassword);
+                await _customerRepo.ChangePassword(oldPassword, newPassword, customerId);
             }
         }
     }

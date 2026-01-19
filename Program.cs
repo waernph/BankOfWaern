@@ -1,4 +1,5 @@
 using AutoMapper;
+using System;
 using Bank_of_Waern.Core.Interfaces;
 using Bank_of_Waern.Core.Services;
 using Bank_of_Waern.Data;
@@ -22,7 +23,8 @@ var apiKey = builder.Configuration["ApiKey"]!;  //Secret key för JWT
 
 
 builder.Services.AddDbContext<BankAppDataContext>(opt => opt.UseSqlServer(connString));
-builder.Services.AddAutoMapper(cfg => { }, typeof(Profile));
+builder.Services.AddAutoMapper(cfg => { }, typeof(AccountProfile));
+
 
 
 //JWT
@@ -60,6 +62,7 @@ builder.Services.AddScoped<IAccountTypeService, AccountTypeService>();
 builder.Services.AddScoped<IDispositionService, DispositionService>();
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+
 
 
 

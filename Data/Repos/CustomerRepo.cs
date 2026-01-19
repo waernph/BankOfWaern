@@ -10,25 +10,22 @@ namespace Bank_of_Waern.Data.Repos
     public class CustomerRepo : ICustomerRepo
     {
         private readonly BankAppDataContext _context;
-        private readonly IJwtHelper _jwtGetter;
 
-        public CustomerRepo(BankAppDataContext context, IJwtHelper jwtGetter)
+        public CustomerRepo(BankAppDataContext context)
         {
             _context = context;
-            _jwtGetter = jwtGetter;
         }
 
-        public async Task ChangePassword(string oldPassword, string newPassword)
+        public async Task ChangePassword(string oldPassword, string newPassword, int customerId)
         {
-            var loggedInUserEmail = await _jwtGetter.GetLoggedInEmail(); 
-            var user = await _context.Customers
-                .FirstOrDefaultAsync(c => c.Emailaddress == loggedInUserEmail);
-            if (user.Password != oldPassword)
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == customerId)!;
+
+            if (customer.Password != oldPassword)
                 throw new Exception("You entered the wrong current password");
             else
             {
-                user.Password = newPassword;
-                _context.Customers.Update(user);
+                customer.Password = newPassword;
+                _context.Customers.Update(customer);
                 await _context.SaveChangesAsync();
             }
         }
@@ -56,6 +53,15 @@ namespace Bank_of_Waern.Data.Repos
             _context.Customers.Add(newCustomer);
             await _context.SaveChangesAsync();
             return newCustomer;
+        }
+
+        public async Task<Customer> FindCustomer(int cusotmerId)
+        {
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == cusotmerId);
+            if (customer == null)
+                throw new Exception("wrong customerID");
+            else 
+                return customer;
         }
 
         public async Task<string> GeneratePassword(Customer user)

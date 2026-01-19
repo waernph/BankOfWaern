@@ -64,10 +64,18 @@ namespace Bank_of_Waern.Controllers
         [Authorize, HttpPost("Accounts")]
         public async Task<IActionResult> Accounts()
         {
-            var customerId = await _jwtHelper.GetLoggedInCustomerId();
-            var disposition = await _dispositionService.GetDisposition(customerId);
-            var accounts = await _accountService.GetAllAccounts(customerId, disposition);
-            return Ok(accounts.ToList());
+            try
+            {
+                var customerId = await _jwtHelper.GetLoggedInCustomerId();
+                var disposition = await _dispositionService.GetDisposition(customerId);
+                var accounts = await _accountService.GetAllAccounts(customerId, disposition);
+                return Ok(accounts.ToList());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
     }
 }

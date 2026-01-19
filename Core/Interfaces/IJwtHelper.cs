@@ -8,5 +8,6 @@ namespace BrewHub.Core.Interfaces
         public Task<string> GetLoggedInEmail();
         public Task<string> GetToken(string role, string? email, Customer? user);
 
+
     }
 }

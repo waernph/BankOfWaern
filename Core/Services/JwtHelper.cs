@@ -1,4 +1,5 @@
 ﻿using Bank_of_Waern.Data.Entities;
+using Bank_of_Waern.Data.Interfaces;
 using BrewHub.Core.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,13 +19,18 @@ namespace BrewHub.Core.Services
             _config = config;
         }
 
+
+
         public async Task<int> GetLoggedInCustomerId()
         {
-            return int.Parse(_jwt.HttpContext.User.FindFirst(ClaimTypes.UserData)!.Value);
+            var customerId = int.Parse(_jwt.HttpContext.User.FindFirst(ClaimTypes.UserData)!.Value);
+            return customerId;
         }
+
         public async Task<string> GetLoggedInEmail()
         {
-            return _jwt.HttpContext.User.FindFirst(ClaimTypes.Email)!.Value;
+            var email = _jwt.HttpContext.User.FindFirst(ClaimTypes.Email)!.Value;
+            return email;
         }
 
         public async Task<string> GetToken(string role, string? email, Customer? user)
