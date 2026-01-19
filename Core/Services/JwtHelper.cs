@@ -1,12 +1,12 @@
 ﻿using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
-using BrewHub.Core.Interfaces;
+using Bank_of_Waern.Core.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace BrewHub.Core.Services
+namespace Bank_of_Waern.Core.Services
 {
     public class JwtHelper : IJwtHelper
     {
@@ -33,12 +33,13 @@ namespace BrewHub.Core.Services
             return email;
         }
 
-        public async Task<string> GetToken(string role, string? email, Customer? user)
+        public async Task<string> GetToken(string role, string email, Customer? user)
         {
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Role, role));
             claims.Add(new Claim(ClaimTypes.Email, email.ToString()));
-            claims.Add(new Claim(ClaimTypes.UserData, user.CustomerId.ToString()!));
+            if(user != null)
+                claims.Add(new Claim(ClaimTypes.UserData, user.CustomerId.ToString()!));
             var IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["ApiKey"]!));
             var signinCredentials = new SigningCredentials(IssuerSigningKey, SecurityAlgorithms.HmacSha256);
 

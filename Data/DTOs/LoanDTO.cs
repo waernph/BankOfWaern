@@ -5,6 +5,5 @@
         public int LoanAmmount { get; set; }
         public int Months { get; set; }
         public decimal payment { get; set; }
-        //public DateOnly LastPaymentDate { get; set; } 
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
 using Bank_of_Waern.Data;
-using BrewHub.Core.Interfaces;
+using Bank_of_Waern.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +17,11 @@ namespace Bank_of_Waern.Controllers
         private readonly IDispositionService _dispositionService;
         private readonly IJwtHelper _jwtHelper;
         private readonly IAdminService _adminService;
-        private readonly BankAppDataContext _context;
+
 
         public AdminController(ICustomerService customerService, IAccountService accountService, 
             IAccountTypeService accountTypeService, IDispositionService dispositionService, 
-            IJwtHelper jwtHelper, IAdminService adminService, BankAppDataContext context)
+            IJwtHelper jwtHelper, IAdminService adminService)
         {
             _customerService = customerService;
             _accountService = accountService;
@@ -29,11 +29,9 @@ namespace Bank_of_Waern.Controllers
             _dispositionService = dispositionService;
             _jwtHelper = jwtHelper;
             _adminService = adminService;
-            _context = context;
         }
 
-        [AllowAnonymous]
-        [HttpGet("AdminLogin")]
+        [AllowAnonymous, HttpGet("AdminLogin")]
         public async Task<IActionResult> AdminLogin(string email, string password)
         {
             try
@@ -47,8 +45,7 @@ namespace Bank_of_Waern.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize(Roles = "Admin")]
-        [HttpPost("NewCustomer")]
+        [Authorize(Roles = "Admin"), HttpPost("NewCustomer")]
         public async Task<IActionResult> NewCustomer(string firstName, string lastName, string gender, string street,
             string city, string zip, string country, string countryCode, string birthday, string emailAdress,
             string phoneCountryCode, string phoneNumber, string frequency,
@@ -67,24 +64,7 @@ namespace Bank_of_Waern.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize(Roles ="Admin")]
-        [HttpPost("LoanApplication")]
-        public async Task<IActionResult> LoanApplocation(int amount, int duration, int accountId, int customerId)
-        {
-            using var dbTransaction = await _context.Database.BeginTransactionAsync();
-            try
-            {
-                await _adminService.ApplyForLoan(amount, duration, accountId, customerId);
-                dbTransaction.Commit();
-                return Ok("Loan granted and completed");
-            }
-            catch (Exception ex)
-            {
-                dbTransaction.Rollback();
-                return BadRequest(ex.Message);
-            }
-            
-        }
+        
     }
 }
 

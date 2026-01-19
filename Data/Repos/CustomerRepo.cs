@@ -1,7 +1,7 @@
 ﻿using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
-using BrewHub.Core.Interfaces;
-using BrewHub.Core.Services;
+using Bank_of_Waern.Core.Interfaces;
+using Bank_of_Waern.Core.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 

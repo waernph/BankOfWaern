@@ -1,5 +1,15 @@
 [
   {
+    "ContainingType": "Bank_of_Waern.Controllers.AccountController",
+    "Method": "Accounts",
+    "RelativePath": "api/Account/Accounts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Bank_of_Waern.Controllers.AdminController",
     "Method": "AdminLogin",
     "RelativePath": "api/Admin/AdminLogin",
@@ -15,37 +25,6 @@
       {
         "Name": "password",
         "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Bank_of_Waern.Controllers.AdminController",
-    "Method": "LoanApplocation",
-    "RelativePath": "api/Admin/LoanApplication",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "amount",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "duration",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "accountId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "customerId",
-        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
@@ -149,16 +128,6 @@
   },
   {
     "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
-    "Method": "Accounts",
-    "RelativePath": "api/Customer/Accounts",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
     "Method": "ChangePassword",
     "RelativePath": "api/Customer/changePassword",
     "HttpMethod": "PUT",
@@ -210,9 +179,40 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
+    "ContainingType": "Bank_of_Waern.Controllers.LoanController",
+    "Method": "LoanApplocation",
+    "RelativePath": "api/Loan/LoanApplication",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "amount",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "duration",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "accountId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "customerId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bank_of_Waern.Controllers.TransactionController",
     "Method": "Transactions",
-    "RelativePath": "api/Customer/Transactions",
+    "RelativePath": "api/Transaction/Transactions",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

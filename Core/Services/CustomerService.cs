@@ -1,7 +1,7 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
 using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
-using BrewHub.Core.Interfaces;
+using Bank_of_Waern.Core.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

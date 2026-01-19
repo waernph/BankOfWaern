@@ -1,6 +1,6 @@
 ﻿using Bank_of_Waern.Data.Entities;
 
-namespace BrewHub.Core.Interfaces
+namespace Bank_of_Waern.Core.Interfaces
 {
     public interface IJwtHelper
     {

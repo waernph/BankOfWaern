@@ -20,5 +20,20 @@ namespace Bank_of_Waern.Data.Repos
                 .ToList();
             return transactions;
         }
+
+        public async Task NewTransaction(int accountId, DateOnly date, string type, string operation, decimal amount, decimal balance)
+        {
+            var newTransaction = new Transaction
+            {
+                AccountId = accountId,
+                Date = date,
+                Type = type,
+                Operation = operation,
+                Amount = amount,
+                Balance = balance
+            };
+            _context.Transactions.Add(newTransaction);
+            await _context.SaveChangesAsync();
+        }
     }
 }

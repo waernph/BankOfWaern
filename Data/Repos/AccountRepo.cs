@@ -46,5 +46,13 @@ namespace Bank_of_Waern.Data.Repos
             
             return accounts;
         }
+
+        public async Task<decimal> GetBalance(int accountId)
+        {
+            var account = await _context.Accounts
+                                  .FirstOrDefaultAsync(a => a.AccountId == accountId);
+            var balance = account.Balance;
+            return balance;
+        }
     }
 }

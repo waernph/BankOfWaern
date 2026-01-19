@@ -1,6 +1,6 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
 
-using BrewHub.Core.Interfaces;
+using Bank_of_Waern.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 
 using Microsoft.AspNetCore.Mvc;
@@ -29,8 +29,8 @@ namespace Bank_of_Waern.Controllers
             _jwtHelper = jwtHelper;
         }
 
-        [Authorize]
-        [HttpPut("changePassword")]
+        [Authorize, HttpPut("changePassword")]
+        
         public async Task<IActionResult> ChangePassword(string oldPassword, string newPassword, string confirmPassword)
         {
             try
@@ -45,8 +45,7 @@ namespace Bank_of_Waern.Controllers
         }
 
 
-        [AllowAnonymous]
-        [HttpPost("login")]
+        [AllowAnonymous, HttpPost("login")]
         public async Task<IActionResult> Login(string birthday, string email, string password)
         {
             try
@@ -59,36 +58,6 @@ namespace Bank_of_Waern.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
-
-        [Authorize, HttpGet("Accounts")]
-        public async Task<IActionResult> Accounts()
-        {
-            try
-            {
-                var customerId = await _jwtHelper.GetLoggedInCustomerId();
-                var disposition = await _dispositionService.GetDisposition(customerId);
-                var accounts = await _accountService.GetAllAccounts(customerId, disposition);
-                return Ok(accounts.ToList());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }  
-        }
-        [Authorize, HttpGet("Transactions")]
-        public async Task<IActionResult> Transactions(int accountId)
-        {
-            try
-            {
-                var customerId = await _jwtHelper.GetLoggedInCustomerId();
-                var transactions = await _accountService.GetAllTransactions(accountId);
-                return Ok(transactions.ToList());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        }  
     }
 }

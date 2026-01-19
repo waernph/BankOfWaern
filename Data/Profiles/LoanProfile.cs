@@ -12,9 +12,9 @@ namespace Bank_of_Waern.Data.Profiles
                     .ForMember(dest => dest.LoanAmmount,
                     opt => opt.MapFrom(src => src.Amount))
                     .ForMember(dest => dest.payment,
-                    opt => opt.MapFrom(src => src.Payments));
-                    //.ForMember(dest => dest.LastPaymentDate,
-                    //opt => opt.MapFrom(src => src.Date.AddMonths(src.Duration)));
+                    opt => opt.MapFrom(src => src.Payments))
+                    .ForMember(dest => dest.Months, 
+                    opt => opt.MapFrom(src => src.Duration));
                 }
     }
 }
