@@ -37,5 +37,22 @@ namespace Bank_of_Waern.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize, HttpPost("CreateNewAccount")]
+        public async Task<IActionResult> CreateNewAccount(string frequency, decimal balance, int accountTypeId, string? accountTypeDescription)
+        {
+            var customerId = await _jwtHelper.GetLoggedInCustomerId();
+            var disposition = await _dispositionService.GetDisposition(customerId);
+            var type = "OWNER";
+            try
+            {
+                var newAccount = await _accountService.CreateAccount(frequency, balance, accountTypeId, accountTypeDescription);
+                await _dispositionService.AddAccountToDisposition(customerId, disposition.DispositionId, newAccount.AccountId, type);
+                return Ok($"New accountId: {newAccount.AccountId}");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

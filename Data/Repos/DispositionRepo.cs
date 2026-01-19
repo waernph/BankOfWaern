@@ -15,9 +15,23 @@ namespace Bank_of_Waern.Data.Repos
             _accountContext = accountContext;
         }
 
-        public async Task<Disposition> GetDisposition(int customerId)
+        public async Task AddAccountToDisposition(int customerId, int dispositionId, int accountId, string type)
         {
-            var disposition = await _context.Dispositions.Where(d => d.CustomerId == customerId).FirstOrDefaultAsync();
+            var newDisposition = new Disposition
+            {
+                AccountId = accountId,
+                CustomerId = customerId,
+                Type = type
+            };
+            _context.Dispositions.Add(newDisposition);
+            await _context.SaveChangesAsync();
+
+
+        }
+
+        public async Task<List<Disposition>> GetDisposition(int customerId)
+        {
+            var disposition = await _context.Dispositions.Where(d => d.CustomerId == customerId).ToListAsync();
             return disposition;
         }
 

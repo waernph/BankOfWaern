@@ -21,7 +21,7 @@ kunden tar ett lån skall pengarna sättas in på ett av kunden konton. - CHECK
 
 - En kund skall kunna logga in och få en översikt på alla sina konton. Där skall
 man se typen av konto och det aktuella saldot. Man skall sedan kunna gå in på
-varje konto och se de transaktioner som är gjorda. - CHECK
+varje konto och se de transaktioner som är gjorda. - Måste fixa så att du söker efter konto med på kontonummer och dispositonId.
 
 
 - En kund skall kunna skapa fler bankkonton av olika typ till sig själv. Den skall
