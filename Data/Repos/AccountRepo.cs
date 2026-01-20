@@ -1,6 +1,7 @@
 ﻿using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Bank_of_Waern.Data.Repos
 {
@@ -13,7 +14,7 @@ namespace Bank_of_Waern.Data.Repos
             _context = context;
         }
 
-        public async Task<Account> CreateAccount(string frequency, decimal balance, int accountTypeId, string? accountTypeDescription)
+        public async Task<Account> CreateAccount(string frequency, decimal balance, int accountTypeId)
         {
             var newAccount = new Account
             {
@@ -38,12 +39,10 @@ namespace Bank_of_Waern.Data.Repos
                 return account;
         }
 
-        public async Task<List<Account>> GetAllAccounts(int customerId, Disposition disposition)
+        public async Task<List<Account>> GetAllAccounts(int customerId, List<Disposition> dispositions)
         {
-            List<Account> accounts = await _context.Accounts
-                                            .Where(a => a.AccountId == disposition.AccountId)
-                                            .ToListAsync();
-            
+            var accountIds = dispositions.Select(d => d.AccountId).ToList();
+            var accounts = await _context.Accounts.Where(a => accountIds.Contains(a.AccountId)).ToListAsync();
             return accounts;
         }
 
@@ -51,8 +50,28 @@ namespace Bank_of_Waern.Data.Repos
         {
             var account = await _context.Accounts
                                   .FirstOrDefaultAsync(a => a.AccountId == accountId);
+            if (account == null)
+                throw new Exception("Account not found");
+
             var balance = account.Balance;
             return balance;
+        }
+
+        public async Task<Account> GetSingleAccount(int accountId)
+        {
+            var account = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountId);
+            if (account == null)
+                throw new Exception("Account not found");
+            else
+                return account;
+        }
+
+        public async Task UpdateBalance(int accountId, decimal amount)
+        {
+            var account = await _context.Accounts.Where(a => a.AccountId == accountId).FirstOrDefaultAsync();
+            account!.Balance += amount;
+            await _context.SaveChangesAsync();
+
         }
     }
 }

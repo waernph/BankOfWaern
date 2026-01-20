@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Bank_of_Waern.Core.Interfaces;
-using Bank_of_Waern.Data.DTOs;
 using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
-using Bank_of_Waern.Core.Interfaces;
 
 namespace Bank_of_Waern.Core.Services
 {
