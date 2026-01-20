@@ -33,7 +33,7 @@ namespace Bank_of_Waern.Core.Services
             }
             else
             {
-                throw new UnauthorizedAccessException("You do not have access to this account's transactions.");
+                throw new Exception("You do not have access to this account's transactions.");
             }
         }
 

@@ -20,7 +20,7 @@ namespace Bank_of_Waern.Data.Repos
         {
             var customer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == customerId)!;
 
-            if (customer.Password != oldPassword)
+            if (customer!.Password != oldPassword)
                 throw new Exception("You entered the wrong current password");
             else
             {

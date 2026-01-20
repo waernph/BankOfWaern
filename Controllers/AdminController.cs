@@ -1,9 +1,7 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
-using Bank_of_Waern.Data;
-using Bank_of_Waern.Core.Interfaces;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Bank_of_Waern.Controllers
 {
@@ -49,13 +47,13 @@ namespace Bank_of_Waern.Controllers
         public async Task<IActionResult> NewCustomer(string firstName, string lastName, string gender, string street,
             string city, string zip, string country, string countryCode, string birthday, string emailAdress,
             string phoneCountryCode, string phoneNumber, string frequency,
-            decimal balance, string accountType, string? accountTypeDescription, string dispositionType)
+            decimal balance, int accountTypeId, string dispositionType)
         {
             try
             {
                 var newCustomer = await _customerService.CreateCustomer(firstName, lastName, gender, street, city, zip, country, countryCode, birthday, emailAdress, phoneCountryCode, phoneNumber);
-                var accountTypeReturn = await _accountTypeService.CreateAccountType(accountType, accountTypeDescription);
-                var newAccount = await _accountService.CreateAccount(frequency, balance, accountTypeReturn.AccountTypeId, accountTypeDescription);
+                //var accountTypeReturn = await _accountTypeService.CreateAccountType(accountTypeId, accountTypeDescription);
+                var newAccount = await _accountService.CreateAccount(frequency, balance, accountTypeId);
                 var newDisposition = await _dispositionService.SetupDisposition(newCustomer.CustomerId, newAccount.AccountId, dispositionType);
                 return Ok($"New customer created! Temporary password: {newCustomer.Password}");
             }

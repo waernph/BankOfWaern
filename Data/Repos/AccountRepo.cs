@@ -14,7 +14,7 @@ namespace Bank_of_Waern.Data.Repos
             _context = context;
         }
 
-        public async Task<Account> CreateAccount(string frequency, decimal balance, int accountTypeId, string? accountTypeDescription)
+        public async Task<Account> CreateAccount(string frequency, decimal balance, int accountTypeId)
         {
             var newAccount = new Account
             {
@@ -50,8 +50,28 @@ namespace Bank_of_Waern.Data.Repos
         {
             var account = await _context.Accounts
                                   .FirstOrDefaultAsync(a => a.AccountId == accountId);
+            if (account == null)
+                throw new Exception("Account not found");
+
             var balance = account.Balance;
             return balance;
+        }
+
+        public async Task<Account> GetSingleAccount(int accountId)
+        {
+            var account = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountId);
+            if (account == null)
+                throw new Exception("Account not found");
+            else
+                return account;
+        }
+
+        public async Task UpdateBalance(int accountId, decimal amount)
+        {
+            var account = await _context.Accounts.Where(a => a.AccountId == accountId).FirstOrDefaultAsync();
+            account!.Balance += amount;
+            await _context.SaveChangesAsync();
+
         }
     }
 }

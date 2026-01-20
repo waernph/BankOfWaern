@@ -209,17 +209,11 @@
             }
           },
           {
-            "name": "accountType",
+            "name": "accountTypeId",
             "in": "query",
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "accountTypeDescription",
-            "in": "query",
-            "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -386,6 +380,58 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearer": [
+              null
+            ]
+          }
+        ]
+      }
+    },
+    "/api/Transaction/NewTransaction": {
+      "post": {
+        "tags": [
+          "Transaction"
+        ],
+        "parameters": [
+          {
+            "name": "recieverAccountId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "senderAccountId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
         ],

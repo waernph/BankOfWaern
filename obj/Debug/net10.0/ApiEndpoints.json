@@ -140,13 +140,8 @@
         "IsRequired": false
       },
       {
-        "Name": "accountType",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "accountTypeDescription",
-        "Type": "System.String",
+        "Name": "accountTypeId",
+        "Type": "System.Int32",
         "IsRequired": false
       },
       {
@@ -235,6 +230,37 @@
       {
         "Name": "customerId",
         "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bank_of_Waern.Controllers.TransactionController",
+    "Method": "NewTransaction",
+    "RelativePath": "api/Transaction/NewTransaction",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "recieverAccountId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "senderAccountId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "amount",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "message",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],

@@ -39,7 +39,10 @@ namespace Bank_of_Waern.Data.Repos
         {
             var disposition = await _context.Dispositions
                                   .FirstOrDefaultAsync(d => d.CustomerId == customerId);
-            return disposition;
+            if (disposition == null)
+                throw new Exception("Disposition not found");
+            else
+                return disposition;
         }
 
         public async Task<Disposition> SetupDisposition(int customerId, int accountId, string type)

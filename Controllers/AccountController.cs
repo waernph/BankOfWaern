@@ -1,5 +1,4 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
-using Bank_of_Waern.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +21,7 @@ namespace Bank_of_Waern.Controllers
             _dispositionService = dispositionService;
         }
 
-        [Authorize]
-        [HttpGet("Accounts")]
+        [Authorize(Roles = "User"),HttpGet("Accounts")]
         public async Task<IActionResult> Accounts()
         {
             try
@@ -38,7 +36,7 @@ namespace Bank_of_Waern.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize, HttpPost("CreateNewAccount")]
+        [Authorize(Roles = "User"), HttpPost("CreateNewAccount")]
         public async Task<IActionResult> CreateNewAccount(string frequency, decimal balance, int accountTypeId, string? accountTypeDescription)
         {
             var customerId = await _jwtHelper.GetLoggedInCustomerId();
@@ -46,7 +44,7 @@ namespace Bank_of_Waern.Controllers
             var type = "OWNER";
             try
             {
-                var newAccount = await _accountService.CreateAccount(frequency, balance, accountTypeId, accountTypeDescription);
+                var newAccount = await _accountService.CreateAccount(frequency, balance, accountTypeId);
                 await _dispositionService.CreateDisposition(customerId, newAccount.AccountId, type);
                 return Ok($"New accountId: {newAccount.AccountId}");
             }

@@ -10,7 +10,6 @@ tillgång till funktionalitet som hör till kunder. - CHECK
 - En Admin användare skall kunna lägga upp nya användare (kunder) och
 skapa ett användarkonto som gör att kunden kan logga in. En ny användare
 skall få ett bankkonto samtidigt som den skapas. Ett bankkonto skall kunna
-Sida 2 av 3
 vara av olika typer tex sparkonto, personkonto mm. Det räcker med ett admin
 konto dvs en admin behöver inte kunna lägga upp andra admins. - CHECK
 
@@ -21,7 +20,7 @@ kunden tar ett lån skall pengarna sättas in på ett av kunden konton. - CHECK
 
 - En kund skall kunna logga in och få en översikt på alla sina konton. Där skall
 man se typen av konto och det aktuella saldot. Man skall sedan kunna gå in på
-varje konto och se de transaktioner som är gjorda. - Måste fixa så att du söker efter konto med på kontonummer och dispositonId.
+varje konto och se de transaktioner som är gjorda. -CHECK
 
 
 - En kund skall kunna skapa fler bankkonton av olika typ till sig själv. Den skall

@@ -1,8 +1,5 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
-
-using Bank_of_Waern.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -29,7 +26,7 @@ namespace Bank_of_Waern.Controllers
             _jwtHelper = jwtHelper;
         }
 
-        [Authorize, HttpPut("changePassword")]
+        [Authorize(Roles = "User"), HttpPut("changePassword")]
         
         public async Task<IActionResult> ChangePassword(string oldPassword, string newPassword, string confirmPassword)
         {

@@ -23,13 +23,13 @@ namespace Bank_of_Waern.Core.Services
 
         public async Task<int> GetLoggedInCustomerId()
         {
-            var customerId = int.Parse(_jwt.HttpContext.User.FindFirst(ClaimTypes.UserData)!.Value);
+            var customerId = int.Parse(_jwt.HttpContext!.User.FindFirst(ClaimTypes.UserData)!.Value);
             return customerId;
         }
 
         public async Task<string> GetLoggedInEmail()
         {
-            var email = _jwt.HttpContext.User.FindFirst(ClaimTypes.Email)!.Value;
+            var email = _jwt.HttpContext!.User.FindFirst(ClaimTypes.Email)!.Value;
             return email;
         }
 
