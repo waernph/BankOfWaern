@@ -12,5 +12,6 @@ namespace Bank_of_Waern.Data.Interfaces
         public Task<string> GeneratePassword(Customer user);
         public Task<Customer> Login(string birthday, string email);
         public Task<Customer> FindCustomer(int cusotmerId);
+        public Task<bool> CheckIfCustomerExists(string email, string birthday);
     }
 }

@@ -44,7 +44,10 @@ namespace Bank_of_Waern.Core.Services
 
         public async Task<Account> CreateAccount(string frequency, decimal balance, int accountTypeId)
         {
-            return await _accountRepo.CreateAccount(frequency, balance, accountTypeId);
+            if (accountTypeId < 1|| accountTypeId > 4)
+                throw new Exception("Invalid account type ID");
+            else
+                return await _accountRepo.CreateAccount(frequency, balance, accountTypeId);
         }
 
         public async Task<List<AccountDTO>> GetAllAccounts(int customerId, List<Disposition> dispositions)

@@ -43,10 +43,17 @@ namespace Bank_of_Waern.Core.Services
             string city, string zip, string country, string countryCode, string birthday, string emailAdress,
             string phoneCountryCode, string phoneNumber)
         {
-            var newCustomer = await _customerRepo.CreateCustomer(firstName, lastName, gender, street,
-             city, zip, country, countryCode, birthday, emailAdress,
-             phoneCountryCode, phoneNumber);
-            return newCustomer;
+            if (await _customerRepo.CheckIfCustomerExists(emailAdress, birthday))
+            {
+                throw new Exception("Customer with the same email and birthday already exists.");
+            }
+            else
+            {
+                var newCustomer = await _customerRepo.CreateCustomer(firstName, lastName, gender, street,
+                 city, zip, country, countryCode, birthday, emailAdress,
+                 phoneCountryCode, phoneNumber);
+                return newCustomer;
+            }
         }
 
         public async Task ChangePassword(string oldPassword, string newPassword, string confirmPassword)

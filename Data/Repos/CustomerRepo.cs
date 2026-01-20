@@ -28,6 +28,14 @@ namespace Bank_of_Waern.Data.Repos
             }
         }
 
+        public async Task<bool> CheckIfCustomerExists(string email, string birthday)
+        {
+            var birthdayParsed = DateOnly.ParseExact(birthday, "yyyyMMdd");
+            var customerExists = await _context.Customers.AnyAsync(c => c.Emailaddress == email && c.Birthday == birthdayParsed);
+            return customerExists;
+
+        }
+
         public async Task<Customer> CreateCustomer(string firstName, string lastName, string gender, string street, 
             string city, string zip, string country, string countryCode, string birthday, string emailAdress, 
             string phoneCountryCode, string phoneNumber)
