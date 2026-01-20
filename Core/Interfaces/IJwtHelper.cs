@@ -6,7 +6,7 @@ namespace Bank_of_Waern.Core.Interfaces
     {
         public Task<int> GetLoggedInCustomerId();
         public Task<string> GetLoggedInEmail();
-        public Task<string> GetToken(string role, string? email, Customer? user);
+        public Task<string> GetToken(string role, string email, Customer? user);
 
 
     }

@@ -1,5 +1,3 @@
-using AutoMapper;
-using System;
 using Bank_of_Waern.Core.Interfaces;
 using Bank_of_Waern.Core.Services;
 using Bank_of_Waern.Data;
@@ -8,10 +6,8 @@ using Bank_of_Waern.Data.Profiles;
 using Bank_of_Waern.Data.Repos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);

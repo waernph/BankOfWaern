@@ -3,7 +3,6 @@ using Bank_of_Waern.Core.Interfaces;
 using Bank_of_Waern.Data.DTOs;
 using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
-using Bank_of_Waern.Core.Interfaces;
 
 namespace Bank_of_Waern.Core.Services
 {
@@ -25,16 +24,39 @@ namespace Bank_of_Waern.Core.Services
             _transactionRepo = transactionRepo;
         }
 
-        public async Task<Account> CreateAccount(string frequency, decimal balance, int accountTypeId, string? accountTypeDescription)
+        public async Task checkAccount(int accountId, decimal? amount)
         {
-            return await _accountRepo.CreateAccount(frequency, balance, accountTypeId, accountTypeDescription);
+            var customerId = await _jwtHelper.GetLoggedInCustomerId();
+            var dispositions = await _dispositionRepo.GetAllDispositions(customerId);
+            if (!dispositions.Any(d => d.AccountId == accountId))
+            {
+                throw new Exception("Account does not belong to the logged in customer");
+            }
+            else
+            {
+                var account = await _accountRepo.GetSingleAccount(accountId);
+                if (amount != null && account.Balance < amount)
+                {
+                    throw new Exception("Insufficient funds");
+                }
+            }
         }
 
-        public async Task<List<AccountDTO>> GetAllAccounts(int customerId, Disposition disposition)
+        public async Task<Account> CreateAccount(string frequency, decimal balance, int accountTypeId)
         {
-            var accounts = await _accountRepo.GetAllAccounts(customerId, disposition);
+            return await _accountRepo.CreateAccount(frequency, balance, accountTypeId);
+        }
+
+        public async Task<List<AccountDTO>> GetAllAccounts(int customerId, List<Disposition> dispositions)
+        {
+            var accounts = await _accountRepo.GetAllAccounts(customerId, dispositions);
             var mappedAccounts = _mapper.Map<List<AccountDTO>>(accounts);
             return mappedAccounts;
+        }
+
+        public async Task UpdateBalance(int AccountId, decimal amount)
+        {
+            await _accountRepo.UpdateBalance(AccountId, amount);
         }
     }
 }
