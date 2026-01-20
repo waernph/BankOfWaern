@@ -5,7 +5,9 @@ namespace Bank_of_Waern.Core.Interfaces
 {
     public interface IAccountService
     {
-        public Task<Account> CreateAccount(string frequency, decimal balance, int accountTypeId, string? accountTypeDescription);
-        public Task<List<AccountDTO>> GetAllAccounts(int customerId, Disposition disposition);
+        public Task<Account> CreateAccount(string frequency, decimal balance, int accountTypeId);
+        public Task<List<AccountDTO>> GetAllAccounts(int customerId, List<Disposition> dispositions);
+        public Task checkAccount(int accountId, decimal? amount);
+        public Task UpdateBalance(int AccountId, decimal amount);
     }
 }

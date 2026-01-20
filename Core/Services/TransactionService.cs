@@ -23,8 +23,9 @@ namespace Bank_of_Waern.Core.Services
 
         public async Task<List<TransactionDTO>> GetAllTransactions(int accountId, int customerId)
         {
-            var dispostion = await _dispositionRepo.GetDisposition(customerId);
-            if (dispostion.AccountId == accountId)
+            var dispostion = await _dispositionRepo.GetAllDispositions(customerId);
+            var accountIdsList = dispostion.Select(d => d.AccountId).ToList();
+            if (accountIdsList.Contains(accountId)) // Fixa det här!!!! Ska checka av om accountId finns i listan av konton som tillhör customerId
             {
                 var transactions = await _transactionRepo.GetAllTransactions(accountId);
                 var mappedTransactions = _mapper.Map<List<TransactionDTO>>(transactions);
@@ -32,7 +33,7 @@ namespace Bank_of_Waern.Core.Services
             }
             else
             {
-                throw new UnauthorizedAccessException("You do not have access to this account's transactions.");
+                throw new Exception("You do not have access to this account's transactions.");
             }
         }
 
