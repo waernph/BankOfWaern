@@ -1,5 +1,4 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

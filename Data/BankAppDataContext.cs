@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Bank_of_Waern.Data.Entities;
+﻿using Bank_of_Waern.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bank_of_Waern.Data;

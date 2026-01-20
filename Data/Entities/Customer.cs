@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Bank_of_Waern.Data.Entities;
+﻿namespace Bank_of_Waern.Data.Entities;
 
 public partial class Customer
 {
