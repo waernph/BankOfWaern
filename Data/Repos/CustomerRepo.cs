@@ -1,5 +1,6 @@
 ﻿using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
+using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -18,11 +19,12 @@ namespace Bank_of_Waern.Data.Repos
         {
             var customer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == customerId)!;
 
-            if (customer!.Password != oldPassword)
+            if (!BCrypt.Net.BCrypt.EnhancedVerify(oldPassword, customer.Password))
                 throw new Exception("You entered the wrong current password");
             else
             {
-                customer.Password = newPassword;
+                var hashedPassword = BCrypt.Net.BCrypt.EnhancedHashPassword(newPassword, 11);
+                customer.Password = hashedPassword;
                 _context.Customers.Update(customer);
                 await _context.SaveChangesAsync();
             }
@@ -73,10 +75,10 @@ namespace Bank_of_Waern.Data.Repos
         public async Task<string> GeneratePassword(Customer user)
         {
             var temp = Guid.NewGuid().ToString().Substring(0, 16);
-            user.Password = temp;
+            user.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(temp, 11);
             _context.Customers.Update(user);
             await _context.SaveChangesAsync();
-            return user.Password;
+            return temp;
         }
 
 

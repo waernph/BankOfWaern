@@ -21,8 +21,6 @@ builder.Services.AddAutoMapper(cfg => { }, typeof(AccountProfile));
 builder.Services.AddAutoMapper(cfg => { }, typeof(TransactionProfile));
 builder.Services.AddAutoMapper(cfg => { }, typeof(LoanProfile));
 
-
-
 //JWT
 builder.Services.AddAuthentication(opt =>
 {
@@ -62,10 +60,6 @@ builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ILoanService, LoanService>();
-
-
-
-
 
 builder.Services.AddSwaggerGen(options =>
 {

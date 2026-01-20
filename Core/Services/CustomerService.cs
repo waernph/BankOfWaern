@@ -24,13 +24,12 @@ namespace Bank_of_Waern.Core.Services
             {
                 var tempPassword = await _customerRepo.GeneratePassword(user);
                 throw new Exception($"It looks like you don't have a password. We sent an email with a temporary password... {tempPassword}");
-
             }
             else if (user == null)
             {
                 throw new Exception("Invalid login credentials.");
             }
-            else if (user.Password != password)
+            else if (!BCrypt.Net.BCrypt.EnhancedVerify(password, user.Password))
             {
                 throw new Exception("Invalid login credentials.");
             }

@@ -18,7 +18,7 @@ namespace Bank_of_Waern.Data.Repos
             if (admin == null)
                 throw new Exception("Admin not found");
 
-            else if (admin.Password != password)
+            else if (!BCrypt.Net.BCrypt.EnhancedVerify(password, admin.Password))
                 throw new Exception("Wrong email or password");
             else
                 return admin;
