@@ -1,4 +1,5 @@
-﻿using Bank_of_Waern.Data.Entities;
+﻿using Bank_of_Waern.Core.Interfaces;
+using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
 using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
@@ -9,21 +10,23 @@ namespace Bank_of_Waern.Data.Repos
     public class CustomerRepo : ICustomerRepo
     {
         private readonly BankAppDataContext _context;
+        private readonly IPasswordService _passwordService;
 
-        public CustomerRepo(BankAppDataContext context)
+        public CustomerRepo(BankAppDataContext context, IPasswordService passwordService)
         {
             _context = context;
+            _passwordService = passwordService;
         }
 
         public async Task ChangePassword(string oldPassword, string newPassword, int customerId)
         {
             var customer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == customerId)!;
 
-            if (!BCrypt.Net.BCrypt.EnhancedVerify(oldPassword, customer.Password))
+            if (!await _passwordService.VerifyPassword(customer.Password, oldPassword))
                 throw new Exception("You entered the wrong current password");
             else
             {
-                var hashedPassword = BCrypt.Net.BCrypt.EnhancedHashPassword(newPassword, 11);
+                var hashedPassword = await _passwordService.HashPassword(newPassword);
                 customer.Password = hashedPassword;
                 _context.Customers.Update(customer);
                 await _context.SaveChangesAsync();
@@ -42,6 +45,7 @@ namespace Bank_of_Waern.Data.Repos
             string city, string zip, string country, string countryCode, string birthday, string emailAdress, 
             string phoneCountryCode, string phoneNumber)
         {
+            var password = Guid.NewGuid().ToString().Substring(0, 16);
             var newCustomer = new Customer
             {
                 Givenname = firstName,
@@ -56,7 +60,7 @@ namespace Bank_of_Waern.Data.Repos
                 Emailaddress = emailAdress,
                 Telephonecountrycode = phoneCountryCode,
                 Telephonenumber = phoneNumber,
-                Password = Guid.NewGuid().ToString().Substring(0, 16)
+                Password = await _passwordService.HashPassword(password)
             };
             _context.Customers.Add(newCustomer);
             await _context.SaveChangesAsync();
@@ -75,7 +79,7 @@ namespace Bank_of_Waern.Data.Repos
         public async Task<string> GeneratePassword(Customer user)
         {
             var temp = Guid.NewGuid().ToString().Substring(0, 16);
-            user.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(temp, 11);
+            user.Password = await _passwordService.HashPassword(temp);
             _context.Customers.Update(user);
             await _context.SaveChangesAsync();
             return temp;

@@ -51,7 +51,6 @@ namespace Bank_of_Waern.Controllers
             try
             {
                 var newCustomer = await _customerService.CreateCustomer(firstName, lastName, gender, street, city, zip, country, countryCode, birthday, emailAdress, phoneCountryCode, phoneNumber);
-                //var accountTypeReturn = await _accountTypeService.CreateAccountType(accountTypeId, accountTypeDescription);
                 var newAccount = await _accountService.CreateAccount(frequency, balance, accountTypeId);
                 var newDisposition = await _dispositionService.SetupDisposition(newCustomer.CustomerId, newAccount.AccountId, dispositionType);
                 return StatusCode(201, $"New customer created! Temporary password: {newCustomer.Password}");

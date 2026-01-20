@@ -60,6 +60,7 @@ builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ILoanService, LoanService>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
 
 builder.Services.AddSwaggerGen(options =>
 {
