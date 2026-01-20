@@ -1,8 +1,8 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
-using Bank_of_Waern.Core.Interfaces;
+using Bank_of_Waern.Data;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bank_of_Waern.Controllers
 {
@@ -11,15 +11,20 @@ namespace Bank_of_Waern.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
+        private readonly IAccountService _accountService;
         private readonly IJwtHelper _jwtHelper;
+        private readonly BankAppDataContext _context;
 
-        public TransactionController(ITransactionService transactionService, IJwtHelper jwtHelper)
+        public TransactionController(ITransactionService transactionService,
+            IAccountService accountService, IJwtHelper jwtHelper, BankAppDataContext context)
         {
             _transactionService = transactionService;
+            _accountService = accountService;
             _jwtHelper = jwtHelper;
+            _context = context;
         }
 
-        [Authorize, HttpGet("Transactions")]
+        [Authorize(Roles = "User"), HttpGet("Transactions")]
         public async Task<IActionResult> Transactions(int accountId)
         {
             try
@@ -33,5 +38,29 @@ namespace Bank_of_Waern.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles = "User"), HttpPost("NewTransaction")]
+        public async Task<IActionResult> NewTransaction(int recieverAccountId, int senderAccountId, decimal amount, string message)
+        {
+            using var dbTransaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                await _accountService.checkAccount(senderAccountId, amount);
+                await _transactionService.NewTransaction(senderAccountId, $"Credit", message, amount);
+                await _accountService.UpdateBalance(senderAccountId, -amount);
+                await _transactionService.NewTransaction(recieverAccountId, $"Debit", message, amount);
+                await _accountService.UpdateBalance(recieverAccountId, amount);
+                await dbTransaction.CommitAsync();
+                return Ok("Transaction successful!");
+            }
+            catch (Exception ex)
+            {
+                await dbTransaction.RollbackAsync();
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
     }
 }
+

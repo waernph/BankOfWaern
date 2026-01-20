@@ -1,5 +1,6 @@
 ﻿using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bank_of_Waern.Data.Repos
 {
@@ -17,6 +18,7 @@ namespace Bank_of_Waern.Data.Repos
             var transactions = _context.Transactions
                 .Where(t => t.AccountId == accountId)
                 .OrderByDescending(t => t.Date)
+                .AsNoTracking()
                 .ToList();
             return transactions;
         }

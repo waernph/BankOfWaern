@@ -14,14 +14,14 @@ namespace Bank_of_Waern.Data.Repos
         public async Task<Loan> ApplyForLoad(decimal amount, int duration, int accountId, int customerId, decimal payments)
         {
             var account = _context.Accounts.Where(a => a.AccountId == accountId).FirstOrDefault();
-            var disposition = _context.Dispositions.Where(d => d.CustomerId == customerId).FirstOrDefault();
-
             if (account == null)
                 throw new Exception("Not a registered customer.");
-            else if (disposition.AccountId != accountId)
-            {
+            var disposition = _context.Dispositions.Where(d => d.CustomerId == customerId).FirstOrDefault();
+            if (disposition == null)
+                throw new Exception("Can't find disposition");
+
+            if (disposition.AccountId != accountId)
                 throw new Exception("Entered AccountId does not match AccountId connected to account");
-            }
             else
             {
                 var newLoan = new Loan
