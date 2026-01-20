@@ -50,7 +50,7 @@ namespace Bank_of_Waern.Controllers
                 await _transactionService.NewTransaction(recieverAccountId, $"Debit", message, amount);
                 await _accountService.UpdateBalance(recieverAccountId, amount);
                 await dbTransaction.CommitAsync();
-                return Ok("Transaction successful!");
+                return StatusCode(201, "Transaction successful!");
             }
             catch (Exception ex)
             {

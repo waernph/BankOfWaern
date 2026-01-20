@@ -46,7 +46,7 @@ namespace Bank_of_Waern.Controllers
             {
                 var newAccount = await _accountService.CreateAccount(frequency, balance, accountTypeId);
                 await _dispositionService.CreateDisposition(customerId, newAccount.AccountId, type);
-                return Ok($"New accountId: {newAccount.AccountId}");
+                return StatusCode(201, $"New accountId: {newAccount.AccountId}");
             }
             catch (Exception ex)
             {

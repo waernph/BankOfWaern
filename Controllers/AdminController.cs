@@ -55,7 +55,7 @@ namespace Bank_of_Waern.Controllers
                 //var accountTypeReturn = await _accountTypeService.CreateAccountType(accountTypeId, accountTypeDescription);
                 var newAccount = await _accountService.CreateAccount(frequency, balance, accountTypeId);
                 var newDisposition = await _dispositionService.SetupDisposition(newCustomer.CustomerId, newAccount.AccountId, dispositionType);
-                return Ok($"New customer created! Temporary password: {newCustomer.Password}");
+                return StatusCode(201, $"New customer created! Temporary password: {newCustomer.Password}");
             }
             catch (Exception ex)
             {

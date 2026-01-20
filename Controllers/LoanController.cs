@@ -32,7 +32,7 @@ namespace Bank_of_Waern.Controllers
                 var grantedLoan = await _loanService.ApplyForLoan(amount, duration, accountId, customerId);
                 await _transactionService.NewTransaction(accountId, type, operation, amount);
                 dbTransaction.Commit();
-                return Ok($"Loan granted and completed. Amount: {grantedLoan.LoanAmmount}. Payment: ${grantedLoan.payment}/month. " +
+                return StatusCode(201, $"Loan granted and completed. Amount: {grantedLoan.LoanAmmount}. Payment: ${grantedLoan.payment}/month. " +
                     $"Loan is payed {DateOnly.FromDateTime(DateTime.Now).AddMonths(grantedLoan.Months)}");
 
             }
