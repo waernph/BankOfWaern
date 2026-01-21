@@ -7,12 +7,10 @@ namespace Bank_of_Waern.Data.Repos
     public class DispositionRepo : IDispositionRepo
     {
         private readonly BankAppDataContext _context;
-        private readonly IAccountRepo _accountContext;
 
-        public DispositionRepo(BankAppDataContext context, IAccountRepo accountContext)
+        public DispositionRepo(BankAppDataContext context)
         {
             _context = context;
-            _accountContext = accountContext;
         }
 
         public async Task CreateDisposition(int customerId, int accountId, string type)

@@ -15,17 +15,16 @@ namespace Bank_of_Waern.Data.Repos
             _passwordService = passwordService;
         }
 
-        public async Task<Admin> AdminLogin(string email, string password)
+        public async Task<Admin> AdminLogin(string email)
         {
             var admin = _context.Admins.Where(a => a.Email == email).FirstOrDefault();
+            
             if (admin == null)
                 throw new Exception("Admin not found");
 
-            else if (!await _passwordService.VerifyPassword(password, admin.Password))
-                throw new Exception("Wrong email or password");
-            else
-                return admin;
             
+            else
+                return admin;  
         }
 
         
