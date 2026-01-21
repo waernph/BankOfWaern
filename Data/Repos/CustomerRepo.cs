@@ -18,19 +18,12 @@ namespace Bank_of_Waern.Data.Repos
             _passwordService = passwordService;
         }
 
-        public async Task ChangePassword(string oldPassword, string newPassword, int customerId)
+        public async Task ChangePassword(string hashedPassword, int customerId)
         {
             var customer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == customerId)!;
-
-            if (!await _passwordService.VerifyPassword(customer.Password, oldPassword))
-                throw new Exception("You entered the wrong current password");
-            else
-            {
-                var hashedPassword = await _passwordService.HashPassword(newPassword);
                 customer.Password = hashedPassword;
                 _context.Customers.Update(customer);
                 await _context.SaveChangesAsync();
-            }
         }
 
         public async Task<bool> CheckIfCustomerExists(string email, string birthday)
@@ -43,9 +36,9 @@ namespace Bank_of_Waern.Data.Repos
 
         public async Task<Customer> CreateCustomer(string firstName, string lastName, string gender, string street, 
             string city, string zip, string country, string countryCode, string birthday, string emailAdress, 
-            string phoneCountryCode, string phoneNumber)
+            string phoneCountryCode, string phoneNumber,string password)
         {
-            var password = Guid.NewGuid().ToString().Substring(0, 16);
+            
             var newCustomer = new Customer
             {
                 Givenname = firstName,
@@ -60,7 +53,7 @@ namespace Bank_of_Waern.Data.Repos
                 Emailaddress = emailAdress,
                 Telephonecountrycode = phoneCountryCode,
                 Telephonenumber = phoneNumber,
-                Password = await _passwordService.HashPassword(password)
+                Password = password
             };
             _context.Customers.Add(newCustomer);
             await _context.SaveChangesAsync();
