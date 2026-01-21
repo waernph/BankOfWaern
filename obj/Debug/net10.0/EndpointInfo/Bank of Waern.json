@@ -38,14 +38,6 @@
             }
           },
           {
-            "name": "balance",
-            "in": "query",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
             "name": "accountTypeId",
             "in": "query",
             "schema": {
@@ -103,10 +95,134 @@
         }
       }
     },
-    "/api/Admin/NewCustomer": {
+    "/api/Customer/changePassword": {
+      "put": {
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "name": "oldPassword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "newPassword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "confirmPassword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearer": [
+              null
+            ]
+          }
+        ]
+      }
+    },
+    "/api/Customer/CustomerId": {
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearer": [
+              null
+            ]
+          }
+        ]
+      }
+    },
+    "/api/Customer/CustomerIdByEmail": {
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearer": [
+              null
+            ]
+          }
+        ]
+      }
+    },
+    "/api/Customer/login": {
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "name": "birthday",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Customer/NewCustomer": {
       "post": {
         "tags": [
-          "Admin"
+          "Customer"
         ],
         "parameters": [
           {
@@ -236,83 +352,6 @@
             ]
           }
         ]
-      }
-    },
-    "/api/Customer/changePassword": {
-      "put": {
-        "tags": [
-          "Customer"
-        ],
-        "parameters": [
-          {
-            "name": "oldPassword",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "newPassword",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "confirmPassword",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "security": [
-          {
-            "bearer": [
-              null
-            ]
-          }
-        ]
-      }
-    },
-    "/api/Customer/login": {
-      "get": {
-        "tags": [
-          "Customer"
-        ],
-        "parameters": [
-          {
-            "name": "birthday",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "email",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "password",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
       }
     },
     "/api/Loan/LoanApplication": {

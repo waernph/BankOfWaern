@@ -1,6 +1,8 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
+using Bank_of_Waern.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bank_of_Waern.Controllers
 {
@@ -14,11 +16,11 @@ namespace Bank_of_Waern.Controllers
         private readonly IDispositionService _dispositionService;
         private readonly IJwtHelper _jwtHelper;
         private readonly IAdminService _adminService;
+        private readonly BankAppDataContext _context;
+        private readonly IPasswordService _passwordService;
 
-
-        public AdminController(ICustomerService customerService, IAccountService accountService, 
-            IAccountTypeService accountTypeService, IDispositionService dispositionService, 
-            IJwtHelper jwtHelper, IAdminService adminService)
+        public AdminController(ICustomerService customerService, IAccountService accountService, IAccountTypeService accountTypeService, 
+            IDispositionService dispositionService, IJwtHelper jwtHelper, IAdminService adminService, BankAppDataContext context, IPasswordService passwordService)
         {
             _customerService = customerService;
             _accountService = accountService;
@@ -26,11 +28,14 @@ namespace Bank_of_Waern.Controllers
             _dispositionService = dispositionService;
             _jwtHelper = jwtHelper;
             _adminService = adminService;
+            _context = context;
+            _passwordService = passwordService;
         }
 
         [AllowAnonymous, HttpGet("AdminLogin")]
         public async Task<IActionResult> AdminLogin(string email, string password)
         {
+
             try
             {
                 var admin = await _adminService.AdminLogin(email, password);
@@ -42,25 +47,7 @@ namespace Bank_of_Waern.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize(Roles = "Admin"), HttpPost("NewCustomer")]
-        public async Task<IActionResult> NewCustomer(string firstName, string lastName, string gender, string street,
-            string city, string zip, string country, string countryCode, string birthday, string emailAdress,
-            string phoneCountryCode, string phoneNumber, string frequency,
-            decimal balance, int accountTypeId, string dispositionType)
-        {
-            try
-            {
-                var newCustomer = await _customerService.CreateCustomer(firstName, lastName, gender, street, city, zip, country, countryCode, birthday, emailAdress, phoneCountryCode, phoneNumber);
-                //var accountTypeReturn = await _accountTypeService.CreateAccountType(accountTypeId, accountTypeDescription);
-                var newAccount = await _accountService.CreateAccount(frequency, balance, accountTypeId);
-                var newDisposition = await _dispositionService.SetupDisposition(newCustomer.CustomerId, newAccount.AccountId, dispositionType);
-                return StatusCode(201, $"New customer created! Temporary password: {newCustomer.Password}");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        
         
     }
 }

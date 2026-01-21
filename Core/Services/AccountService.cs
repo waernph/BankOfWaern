@@ -12,16 +12,14 @@ namespace Bank_of_Waern.Core.Services
         private readonly IMapper _mapper;
         private readonly IJwtHelper _jwtHelper;
         private readonly IDispositionRepo _dispositionRepo;
-        private readonly ITransactionRepo _transactionRepo;
 
         public AccountService(IAccountRepo accountRepo, IMapper mapper, IJwtHelper jwtHelper,
-            IDispositionRepo dispositionRepo, ITransactionRepo transactionRepo)
+            IDispositionRepo dispositionRepo)
         {
             _accountRepo = accountRepo;
             _mapper = mapper;
             _jwtHelper = jwtHelper;
             _dispositionRepo = dispositionRepo;
-            _transactionRepo = transactionRepo;
         }
 
         public async Task checkAccount(int accountId, decimal? amount)

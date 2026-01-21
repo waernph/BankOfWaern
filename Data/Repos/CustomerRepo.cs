@@ -1,5 +1,7 @@
-﻿using Bank_of_Waern.Data.Entities;
+﻿using Bank_of_Waern.Core.Interfaces;
+using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
+using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -8,24 +10,20 @@ namespace Bank_of_Waern.Data.Repos
     public class CustomerRepo : ICustomerRepo
     {
         private readonly BankAppDataContext _context;
+        private readonly IPasswordService _passwordService;
 
-        public CustomerRepo(BankAppDataContext context)
+        public CustomerRepo(BankAppDataContext context, IPasswordService passwordService)
         {
             _context = context;
+            _passwordService = passwordService;
         }
 
-        public async Task ChangePassword(string oldPassword, string newPassword, int customerId)
+        public async Task ChangePassword(string hashedPassword, int customerId)
         {
             var customer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == customerId)!;
-
-            if (customer!.Password != oldPassword)
-                throw new Exception("You entered the wrong current password");
-            else
-            {
-                customer.Password = newPassword;
+                customer.Password = hashedPassword;
                 _context.Customers.Update(customer);
                 await _context.SaveChangesAsync();
-            }
         }
 
         public async Task<bool> CheckIfCustomerExists(string email, string birthday)
@@ -38,8 +36,9 @@ namespace Bank_of_Waern.Data.Repos
 
         public async Task<Customer> CreateCustomer(string firstName, string lastName, string gender, string street, 
             string city, string zip, string country, string countryCode, string birthday, string emailAdress, 
-            string phoneCountryCode, string phoneNumber)
+            string phoneCountryCode, string phoneNumber,string password)
         {
+            
             var newCustomer = new Customer
             {
                 Givenname = firstName,
@@ -54,7 +53,7 @@ namespace Bank_of_Waern.Data.Repos
                 Emailaddress = emailAdress,
                 Telephonecountrycode = phoneCountryCode,
                 Telephonenumber = phoneNumber,
-                Password = Guid.NewGuid().ToString().Substring(0, 16)
+                Password = password
             };
             _context.Customers.Add(newCustomer);
             await _context.SaveChangesAsync();
@@ -70,13 +69,12 @@ namespace Bank_of_Waern.Data.Repos
                 return customer;
         }
 
-        public async Task<string> GeneratePassword(Customer user)
+        public async Task SaveNewPassword(Customer user, string hashedPassword)
         {
-            var temp = Guid.NewGuid().ToString().Substring(0, 16);
-            user.Password = temp;
+            user.Password = hashedPassword;
             _context.Customers.Update(user);
             await _context.SaveChangesAsync();
-            return user.Password;
+
         }
 
 
@@ -91,6 +89,16 @@ namespace Bank_of_Waern.Data.Repos
             }
             else
                 return customer;
+        }
+
+        public async Task<int> GetCustomerByEmail(string email)
+        {
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(c => c.Emailaddress == email);
+            if (customer == null)
+                throw new Exception("No registered customer");
+            else
+                return customer.CustomerId;
         }
     }
 }

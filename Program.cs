@@ -1,9 +1,6 @@
-using Bank_of_Waern.Core.Interfaces;
-using Bank_of_Waern.Core.Services;
 using Bank_of_Waern.Data;
-using Bank_of_Waern.Data.Interfaces;
 using Bank_of_Waern.Data.Profiles;
-using Bank_of_Waern.Data.Repos;
+using Bank_of_Waern.Estensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -14,14 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 var connString = builder.Configuration["connString"]; //Secret key för connection string
 var apiKey = builder.Configuration["ApiKey"]!;  //Secret key för JWT
 
-
-
 builder.Services.AddDbContext<BankAppDataContext>(opt => opt.UseSqlServer(connString));
 builder.Services.AddAutoMapper(cfg => { }, typeof(AccountProfile));
 builder.Services.AddAutoMapper(cfg => { }, typeof(TransactionProfile));
 builder.Services.AddAutoMapper(cfg => { }, typeof(LoanProfile));
-
-
 
 //JWT
 builder.Services.AddAuthentication(opt =>
@@ -44,27 +37,8 @@ builder.Services.AddAuthentication(opt =>
     });
 
 builder.Services.AddControllers();
-
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
-builder.Services.AddScoped<IAccountRepo, AccountRepo>();
-builder.Services.AddScoped<IAccountTypeRepo, AccountTypeRepo>();
-builder.Services.AddScoped<IDispositionRepo, DispositionRepo>();
-builder.Services.AddScoped<IAdminRepo, AdminRepo>();
-builder.Services.AddScoped<ITransactionRepo, TransactionRepo>();
-builder.Services.AddScoped<ILoanRepo, LoanRepo>();
-
-builder.Services.AddScoped<ICustomerService, CustomerService>();
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IAccountTypeService, AccountTypeService>();
-builder.Services.AddScoped<IDispositionService, DispositionService>();
-builder.Services.AddScoped<IJwtHelper, JwtHelper>();
-builder.Services.AddScoped<IAdminService, AdminService>();
-builder.Services.AddScoped<ITransactionService, TransactionService>();
-builder.Services.AddScoped<ILoanService, LoanService>();
-
-
-
+builder.Services.AddScopedServices(); //Extension method för att lägga till alla AddScoped
 
 
 builder.Services.AddSwaggerGen(options =>
