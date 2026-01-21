@@ -1,10 +1,8 @@
 using Bank_of_Waern.Data;
-using Bank_of_Waern.Data.Profiles;
-using Bank_of_Waern.Estensions;
+using Bank_of_Waern.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,9 +10,7 @@ var connString = builder.Configuration["connString"]; //Secret key för connectio
 var apiKey = builder.Configuration["ApiKey"]!;  //Secret key för JWT
 
 builder.Services.AddDbContext<BankAppDataContext>(opt => opt.UseSqlServer(connString));
-builder.Services.AddAutoMapper(cfg => { }, typeof(AccountProfile));
-builder.Services.AddAutoMapper(cfg => { }, typeof(TransactionProfile));
-builder.Services.AddAutoMapper(cfg => { }, typeof(LoanProfile));
+builder.Services.AddAutoMapperProfiles(); //Extension method för att lägga till alla AutoMapper profiler
 
 //JWT
 builder.Services.AddAuthentication(opt =>
@@ -38,24 +34,10 @@ builder.Services.AddAuthentication(opt =>
 
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScopedServices(); //Extension method för att lägga till alla AddScoped
-
-
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
-    {
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT",
-        Description = "Klistra in JWT-token här"
-    });
-
-    options.OperationFilter<SecurityRequirementsOperationFilter>();
-});
+builder.Services.AddScoped(); //Extension method för att lägga till alla AddScoped
+builder.Services.AddSwaggerGenSetup(); //Extension method för att lägga till SwaggerGen
 
 var app = builder.Build();
-
 app.UseAuthentication();
 app.UseRouting();
 app.UseAuthorization();
@@ -65,7 +47,4 @@ app.UseEndpoints(endpoints =>
 });
 app.UseSwagger();
 app.UseSwaggerUI(opt => opt.EnableTryItOutByDefault());
-
-
 app.Run();
-

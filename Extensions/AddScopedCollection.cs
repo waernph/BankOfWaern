@@ -3,11 +3,11 @@ using Bank_of_Waern.Core.Services;
 using Bank_of_Waern.Data.Interfaces;
 using Bank_of_Waern.Data.Repos;
 
-namespace Bank_of_Waern.Estensions
+namespace Bank_of_Waern.Extensions
 {
-    public static class ServiceCollectionExtension
+    public static class AddScopedCollection
     {
-        public static IServiceCollection AddScopedServices(this IServiceCollection services)
+        public static IServiceCollection AddScoped(this IServiceCollection services)
         {
             services.AddScoped<ICustomerRepo, CustomerRepo>();
             services.AddScoped<IAccountRepo, AccountRepo>();
