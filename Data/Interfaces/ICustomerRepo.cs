@@ -9,7 +9,7 @@ namespace Bank_of_Waern.Data.Interfaces
             string city, string zip, string country, string countryCode, string birthday, string emailAdress,
             string phoneCountryCode, string phoneNumber, string password);
 
-        public Task<string> GeneratePassword(Customer user);
+        public Task SaveNewPassword(Customer user, string hashedPassword);
         public Task<Customer> Login(string birthday, string email);
         public Task<Customer> FindCustomer(int cusotmerId);
         public Task<bool> CheckIfCustomerExists(string email, string birthday);

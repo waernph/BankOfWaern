@@ -25,7 +25,9 @@ namespace Bank_of_Waern.Core.Services
             var user = await _customerRepo.Login(birthday, email);
             if (user.Password == null)
             {
-                var tempPassword = await _customerRepo.GeneratePassword(user);
+                var tempPassword = await _passwordServiece.GeneratePassword();
+                var hashedPassword = await _passwordServiece.HashPassword(tempPassword);
+                await _customerRepo.SaveNewPassword(user, hashedPassword);
                 throw new Exception($"It looks like you don't have a password. We sent an email with a temporary password... {tempPassword}");
             }
             else if (user == null)

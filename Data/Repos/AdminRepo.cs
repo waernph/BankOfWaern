@@ -7,12 +7,11 @@ namespace Bank_of_Waern.Data.Repos
     public class AdminRepo : IAdminRepo
     {
         private readonly BankAppDataContext _context;
-        private readonly IPasswordService _passwordService;
 
-        public AdminRepo(BankAppDataContext context, IPasswordService passwordService)
+
+        public AdminRepo(BankAppDataContext context)
         {
             _context = context;
-            _passwordService = passwordService;
         }
 
         public async Task<Admin> AdminLogin(string email)

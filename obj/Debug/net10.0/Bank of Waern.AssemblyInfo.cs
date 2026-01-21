@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bank of Waern")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6227865f576f7adcabcc86d855a5f95e040da9b7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e6136212d6078f2993de5ab3f1661409aa687e7b")]
 [assembly: System.Reflection.AssemblyProductAttribute("Bank of Waern")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Bank of Waern")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

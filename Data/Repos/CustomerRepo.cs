@@ -69,13 +69,12 @@ namespace Bank_of_Waern.Data.Repos
                 return customer;
         }
 
-        public async Task<string> GeneratePassword(Customer user)
+        public async Task SaveNewPassword(Customer user, string hashedPassword)
         {
-            var temp = Guid.NewGuid().ToString().Substring(0, 16);
-            user.Password = await _passwordService.HashPassword(temp);
+            user.Password = hashedPassword;
             _context.Customers.Update(user);
             await _context.SaveChangesAsync();
-            return temp;
+
         }
 
 
