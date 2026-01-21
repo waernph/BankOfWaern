@@ -90,6 +90,16 @@ namespace Bank_of_Waern.Data.Repos
             else
                 return customer;
         }
+
+        public async Task<int> GetCustomerByEmail(string email)
+        {
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(c => c.Emailaddress == email);
+            if (customer == null)
+                throw new Exception("No registered customer");
+            else
+                return customer.CustomerId;
+        }
     }
 }
 //62be4ac7-3202-40

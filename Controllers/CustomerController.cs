@@ -1,9 +1,7 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
-using Bank_of_Waern.Core.Services;
 using Bank_of_Waern.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace Bank_of_Waern.Controllers
@@ -20,8 +18,8 @@ namespace Bank_of_Waern.Controllers
         private readonly BankAppDataContext _context;
         private readonly IPasswordService _passwordService;
 
-        public CustomerController(ICustomerService customerService, IAccountService accountService, 
-            IAccountTypeService accountTypeService, IDispositionService dispositionService, 
+        public CustomerController(ICustomerService customerService, IAccountService accountService,
+            IAccountTypeService accountTypeService, IDispositionService dispositionService,
             IJwtHelper jwtHelper, BankAppDataContext context, IPasswordService passwordService)
         {
             _customerService = customerService;
@@ -34,7 +32,6 @@ namespace Bank_of_Waern.Controllers
         }
 
         [Authorize(Roles = "User"), HttpPut("changePassword")]
-        
         public async Task<IActionResult> ChangePassword(string oldPassword, string newPassword, string confirmPassword)
         {
             try
@@ -48,6 +45,17 @@ namespace Bank_of_Waern.Controllers
             }
         }
 
+        [Authorize, HttpGet("CustomerId")]
+        public async Task<IActionResult> GetCustomerId()
+        {
+            return Ok(await _jwtHelper.GetLoggedInCustomerId());
+        }
+
+        [Authorize(Roles ="Admin"), HttpGet("CustomerIdByEmail")]
+        public async Task<IActionResult> GetCustomerIdByEmail(string email)
+        {
+            return Ok(await _customerService.GetCustomerByEmail(email));
+        }
 
         [AllowAnonymous, HttpGet("login")]
         public async Task<IActionResult> Login(string birthday, string email, string password)

@@ -13,5 +13,6 @@ namespace Bank_of_Waern.Data.Interfaces
         public Task<Customer> Login(string birthday, string email);
         public Task<Customer> FindCustomer(int cusotmerId);
         public Task<bool> CheckIfCustomerExists(string email, string birthday);
+        public Task<int> GetCustomerByEmail(string email);
     }
 }

@@ -57,9 +57,87 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Bank_of_Waern.Controllers.AdminController",
+    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/Customer/changePassword",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "oldPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "newPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "confirmPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
+    "Method": "GetCustomerId",
+    "RelativePath": "api/Customer/CustomerId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
+    "Method": "GetCustomerIdByEmail",
+    "RelativePath": "api/Customer/CustomerIdByEmail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
+    "Method": "Login",
+    "RelativePath": "api/Customer/login",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "birthday",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "password",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
     "Method": "NewCustomer",
-    "RelativePath": "api/Admin/NewCustomer",
+    "RelativePath": "api/Customer/NewCustomer",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -141,58 +219,6 @@
       },
       {
         "Name": "dispositionType",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
-    "Method": "ChangePassword",
-    "RelativePath": "api/Customer/changePassword",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "oldPassword",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "newPassword",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "confirmPassword",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Bank_of_Waern.Controllers.CustomerController",
-    "Method": "Login",
-    "RelativePath": "api/Customer/login",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "birthday",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "email",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "password",
         "Type": "System.String",
         "IsRequired": false
       }

@@ -79,5 +79,10 @@ namespace Bank_of_Waern.Core.Services
                 await _customerRepo.ChangePassword(hashedPassword, customerId);
             }
         }
+
+        public async Task<int> GetCustomerByEmail(string email)
+        {
+            return await _customerRepo.GetCustomerByEmail(email);
+        }
     }
 }
