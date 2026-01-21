@@ -23,11 +23,6 @@
         "IsRequired": false
       },
       {
-        "Name": "balance",
-        "Type": "System.Decimal",
-        "IsRequired": false
-      },
-      {
         "Name": "accountTypeId",
         "Type": "System.Int32",
         "IsRequired": false

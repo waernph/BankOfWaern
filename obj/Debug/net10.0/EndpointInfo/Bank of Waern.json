@@ -38,14 +38,6 @@
             }
           },
           {
-            "name": "balance",
-            "in": "query",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
             "name": "accountTypeId",
             "in": "query",
             "schema": {

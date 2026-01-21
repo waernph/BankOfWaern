@@ -47,30 +47,7 @@ namespace Bank_of_Waern.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize(Roles = "Admin"), HttpPost("NewCustomer")]
-        public async Task<IActionResult> NewCustomer(string firstName, string lastName, string gender, string street,
-            string city, string zip, string country, string countryCode, string birthday, string emailAdress,
-            string phoneCountryCode, string phoneNumber, string frequency,
-            decimal balance, int accountTypeId, string dispositionType)
-        {
-            using var dbTransaction = await _context.Database.BeginTransactionAsync();
-            try
-            {
-                var tempPassword = await _passwordService.GeneratePassword();
-                var newCustomer = await _customerService.CreateCustomer(firstName, lastName, gender, 
-                    street, city, zip, country, countryCode, birthday, emailAdress, phoneCountryCode, phoneNumber, tempPassword);
-                var hashedPassword = await _passwordService.HashPassword(tempPassword!);
-                var newAccount = await _accountService.CreateAccount(frequency, balance, accountTypeId);
-                var newDisposition = await _dispositionService.SetupDisposition(newCustomer.CustomerId, newAccount.AccountId, dispositionType);
-                await dbTransaction.CommitAsync();
-                return StatusCode(201, $"New customer created! Temporary password: {tempPassword} CHANGE WHEN YOU LOG IN.");
-            }
-            catch (Exception ex)
-            {
-                dbTransaction.Rollback();
-                return BadRequest(ex.Message);
-            }
-        }
+        
         
     }
 }
