@@ -4,7 +4,7 @@ namespace Bank_of_Waern.Data.Interfaces
 {
     public interface IAdminRepo
     {
-        public Task<Admin> AdminLogin(string email, string password);
+        public Task<Admin> AdminLogin(string email);
         
     }
 }

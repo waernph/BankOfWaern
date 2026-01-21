@@ -1,4 +1,5 @@
-﻿using Bank_of_Waern.Data.Entities;
+﻿using Bank_of_Waern.Core.Interfaces;
+using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
 
 namespace Bank_of_Waern.Data.Repos
@@ -7,22 +8,22 @@ namespace Bank_of_Waern.Data.Repos
     {
         private readonly BankAppDataContext _context;
 
+
         public AdminRepo(BankAppDataContext context)
         {
             _context = context;
         }
 
-        public async Task<Admin> AdminLogin(string email, string password)
+        public async Task<Admin> AdminLogin(string email)
         {
             var admin = _context.Admins.Where(a => a.Email == email).FirstOrDefault();
+            
             if (admin == null)
                 throw new Exception("Admin not found");
 
-            else if (admin.Password != password)
-                throw new Exception("Wrong email or password");
-            else
-                return admin;
             
+            else
+                return admin;  
         }
 
         

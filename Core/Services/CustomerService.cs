@@ -9,12 +9,15 @@ namespace Bank_of_Waern.Core.Services
         private readonly ICustomerRepo _customerRepo;
         private readonly IConfiguration _config;
         private readonly IJwtHelper _jwtHelper;
+        private readonly IPasswordService _passwordServiece;
 
-        public CustomerService(ICustomerRepo customerRepo, IConfiguration config, IJwtHelper jwtHelper)
+        public CustomerService(ICustomerRepo customerRepo, IConfiguration config, 
+            IJwtHelper jwtHelper, IPasswordService passwordServiece)
         {
             _customerRepo = customerRepo;
             _config = config;
             _jwtHelper = jwtHelper;
+            _passwordServiece = passwordServiece;
         }
 
         public async Task<Customer> Login(string birthday, string email, string password)
@@ -22,15 +25,16 @@ namespace Bank_of_Waern.Core.Services
             var user = await _customerRepo.Login(birthday, email);
             if (user.Password == null)
             {
-                var tempPassword = await _customerRepo.GeneratePassword(user);
+                var tempPassword = await _passwordServiece.GeneratePassword();
+                var hashedPassword = await _passwordServiece.HashPassword(tempPassword);
+                await _customerRepo.SaveNewPassword(user, hashedPassword);
                 throw new Exception($"It looks like you don't have a password. We sent an email with a temporary password... {tempPassword}");
-
             }
             else if (user == null)
             {
                 throw new Exception("Invalid login credentials.");
             }
-            else if (user.Password != password)
+            else if (!BCrypt.Net.BCrypt.EnhancedVerify(password, user.Password))
             {
                 throw new Exception("Invalid login credentials.");
             }
@@ -41,7 +45,7 @@ namespace Bank_of_Waern.Core.Services
 
         public async Task<Customer> CreateCustomer(string firstName, string lastName, string gender, string street,
             string city, string zip, string country, string countryCode, string birthday, string emailAdress,
-            string phoneCountryCode, string phoneNumber)
+            string phoneCountryCode, string phoneNumber, string password)
         {
             if (await _customerRepo.CheckIfCustomerExists(emailAdress, birthday))
             {
@@ -51,7 +55,7 @@ namespace Bank_of_Waern.Core.Services
             {
                 var newCustomer = await _customerRepo.CreateCustomer(firstName, lastName, gender, street,
                  city, zip, country, countryCode, birthday, emailAdress,
-                 phoneCountryCode, phoneNumber);
+                 phoneCountryCode, phoneNumber, password);
                 return newCustomer;
             }
         }
@@ -59,15 +63,26 @@ namespace Bank_of_Waern.Core.Services
         public async Task ChangePassword(string oldPassword, string newPassword, string confirmPassword)
         {
             var customerId = await _jwtHelper.GetLoggedInCustomerId();
+            var customer =  await _customerRepo.FindCustomer(customerId);
 
             if (newPassword != confirmPassword)
             {
                 throw new Exception("New password and confirm password do not match.");
             }
+            else if (!await _passwordServiece.VerifyPassword(oldPassword, customer.Password!))
+            {
+                throw new Exception("Old password is incorrect.");
+            }
             else
             {
-                await _customerRepo.ChangePassword(oldPassword, newPassword, customerId);
+                var hashedPassword = await _passwordServiece.HashPassword(newPassword);
+                await _customerRepo.ChangePassword(hashedPassword, customerId);
             }
+        }
+
+        public async Task<int> GetCustomerByEmail(string email)
+        {
+            return await _customerRepo.GetCustomerByEmail(email);
         }
     }
 }
