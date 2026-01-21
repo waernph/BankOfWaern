@@ -41,7 +41,7 @@ namespace Bank_of_Waern.Data.Repos
         public async Task<List<Account>> GetAllAccounts(int customerId, List<Disposition> dispositions)
         {
             var accountIds = dispositions.Select(d => d.AccountId).ToList();
-            var accounts = await _context.Accounts.Where(a => accountIds.Contains(a.AccountId)).ToListAsync();
+            var accounts = await _context.Accounts.Where(a => accountIds.Contains(a.AccountId)).AsNoTracking().ToListAsync();
             return accounts;
         }
 

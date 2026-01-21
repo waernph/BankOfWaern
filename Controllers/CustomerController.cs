@@ -45,7 +45,7 @@ namespace Bank_of_Waern.Controllers
             }
         }
 
-        [Authorize, HttpGet("CustomerId")]
+        [Authorize(Roles = "User"), HttpGet("CustomerId")]
         public async Task<IActionResult> GetCustomerId()
         {
             return Ok(await _jwtHelper.GetLoggedInCustomerId());

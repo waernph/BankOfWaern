@@ -29,7 +29,7 @@ namespace Bank_of_Waern.Data.Repos
 
         public async Task<List<Disposition>> GetAllDispositions(int customerId)
         {
-            var disposition = await _context.Dispositions.Where(d => d.CustomerId == customerId).ToListAsync();
+            var disposition = await _context.Dispositions.Where(d => d.CustomerId == customerId).AsNoTracking().ToListAsync();
             return disposition;
         }
 
