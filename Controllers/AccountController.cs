@@ -39,7 +39,6 @@ namespace Bank_of_Waern.Controllers
         public async Task<IActionResult> CreateNewAccount(string frequency, decimal balance, int accountTypeId, string? accountTypeDescription)
         {
             var customerId = await _jwtHelper.GetLoggedInCustomerId();
-            //var disposition = await _dispositionService.GetDisposition(customerId);
             var type = "OWNER";
             try
             {

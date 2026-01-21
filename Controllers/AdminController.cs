@@ -17,10 +17,10 @@ namespace Bank_of_Waern.Controllers
         private readonly IJwtHelper _jwtHelper;
         private readonly IAdminService _adminService;
         private readonly BankAppDataContext _context;
+        private readonly IPasswordService _passwordService;
 
-        public AdminController(ICustomerService customerService, IAccountService accountService, 
-            IAccountTypeService accountTypeService, IDispositionService dispositionService, 
-            IJwtHelper jwtHelper, IAdminService adminService, BankAppDataContext context)
+        public AdminController(ICustomerService customerService, IAccountService accountService, IAccountTypeService accountTypeService, 
+            IDispositionService dispositionService, IJwtHelper jwtHelper, IAdminService adminService, BankAppDataContext context, IPasswordService passwordService)
         {
             _customerService = customerService;
             _accountService = accountService;
@@ -29,6 +29,7 @@ namespace Bank_of_Waern.Controllers
             _jwtHelper = jwtHelper;
             _adminService = adminService;
             _context = context;
+            _passwordService = passwordService;
         }
 
         [AllowAnonymous, HttpGet("AdminLogin")]
@@ -55,12 +56,14 @@ namespace Bank_of_Waern.Controllers
             using var dbTransaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                var tempPassword = await _passwordService.GeneratePassword();
                 var newCustomer = await _customerService.CreateCustomer(firstName, lastName, gender, 
-                    street, city, zip, country, countryCode, birthday, emailAdress, phoneCountryCode, phoneNumber);
-                var tempPassword = newCustomer.Password;
+                    street, city, zip, country, countryCode, birthday, emailAdress, phoneCountryCode, phoneNumber, tempPassword);
+                var hashedPassword = await _passwordService.HashPassword(tempPassword!);
                 var newAccount = await _accountService.CreateAccount(frequency, balance, accountTypeId);
                 var newDisposition = await _dispositionService.SetupDisposition(newCustomer.CustomerId, newAccount.AccountId, dispositionType);
-                return StatusCode(201, $"New customer created! Temporary password: {newCustomer.Password} CHANGE WHEN YOU LOG IN.");
+                await dbTransaction.CommitAsync();
+                return StatusCode(201, $"New customer created! Temporary password: {tempPassword} CHANGE WHEN YOU LOG IN.");
             }
             catch (Exception ex)
             {

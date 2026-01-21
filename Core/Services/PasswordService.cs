@@ -13,5 +13,10 @@ namespace Bank_of_Waern.Core.Services
         {
             return BCrypt.Net.BCrypt.EnhancedVerify(password, hashedPassword);
         }
+
+        public async Task<string> GeneratePassword()
+        {
+            return Guid.NewGuid().ToString().Substring(0, 16);
+        }
     }
 }

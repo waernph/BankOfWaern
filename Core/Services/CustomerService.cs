@@ -43,7 +43,7 @@ namespace Bank_of_Waern.Core.Services
 
         public async Task<Customer> CreateCustomer(string firstName, string lastName, string gender, string street,
             string city, string zip, string country, string countryCode, string birthday, string emailAdress,
-            string phoneCountryCode, string phoneNumber)
+            string phoneCountryCode, string phoneNumber, string password)
         {
             if (await _customerRepo.CheckIfCustomerExists(emailAdress, birthday))
             {
@@ -51,7 +51,6 @@ namespace Bank_of_Waern.Core.Services
             }
             else
             {
-                var password = Guid.NewGuid().ToString().Substring(0, 16);
                 var newCustomer = await _customerRepo.CreateCustomer(firstName, lastName, gender, street,
                  city, zip, country, countryCode, birthday, emailAdress,
                  phoneCountryCode, phoneNumber, password);
