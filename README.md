@@ -1,7 +1,14 @@
 # Inlämninguppgift 2 
 
+### Uppgiftsbeskrivning
+Uppgiften handlar om att skapa backend-delen för en bankapplikation som skall
+köras via webben. Eftersom banken planerar att bygga både en
+mobilapplikation och en webapplikation skall lösningen innehålla ett web api
+som arbetar mot en färdig databas som ni får tillgång till. Den skall skrivas med
+ASP.NET Web api och innehålla inloggning och hantering av behörighet.
+
 ### Syfte med uppgiften
-Att visa att ni kan designa ett fungerande ASP.NET web api
+- Att visa att ni kan designa ett fungerande ASP.NET web api
 enligt de riktlinjer vi gått igenom
 - Att visa att ni kan arbeta med säkerhet i ett web api.
 - Visa att ni kan hantera en mer komplex uppgift och med större
