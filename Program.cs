@@ -37,9 +37,12 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped(); //Extension method för att lägga till alla AddScoped
 builder.Services.AddSwaggerGenSetup(); //Extension method för att lägga till SwaggerGen
 
+
+
 var app = builder.Build();
-app.UseAuthentication();
+
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {

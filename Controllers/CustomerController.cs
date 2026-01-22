@@ -57,7 +57,7 @@ namespace Bank_of_Waern.Controllers
             return Ok(await _customerService.GetCustomerByEmail(email));
         }
 
-        [AllowAnonymous, HttpGet("login")]
+        [AllowAnonymous, HttpPost("login")]
         public async Task<IActionResult> Login(string birthday, string email, string password)
         {
             try
