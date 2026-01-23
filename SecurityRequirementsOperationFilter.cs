@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.OpenApi;
-using Swashbuckle.AspNetCore.SwaggerGen;
-
-//Setup av swaggerGen
+﻿//Setup av swaggerGen
 public class SecurityRequirementsOperationFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)

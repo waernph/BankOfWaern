@@ -1,5 +1,4 @@
 ﻿using Bank_of_Waern.Data.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Bank_of_Waern.Data;
 

@@ -1,8 +1,6 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
 using Bank_of_Waern.Data;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace Bank_of_Waern.Controllers
 {

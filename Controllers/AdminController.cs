@@ -1,8 +1,6 @@
 ﻿using Bank_of_Waern.Core.Interfaces;
 using Bank_of_Waern.Data;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace Bank_of_Waern.Controllers
 {
@@ -10,26 +8,14 @@ namespace Bank_of_Waern.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-        private readonly ICustomerService _customerService;
-        private readonly IAccountService _accountService;
-        private readonly IAccountTypeService _accountTypeService;
-        private readonly IDispositionService _dispositionService;
+
         private readonly IJwtHelper _jwtHelper;
         private readonly IAdminService _adminService;
-        private readonly BankAppDataContext _context;
-        private readonly IPasswordService _passwordService;
 
-        public AdminController(ICustomerService customerService, IAccountService accountService, IAccountTypeService accountTypeService, 
-            IDispositionService dispositionService, IJwtHelper jwtHelper, IAdminService adminService, BankAppDataContext context, IPasswordService passwordService)
+        public AdminController(IJwtHelper jwtHelper, IAdminService adminService)
         {
-            _customerService = customerService;
-            _accountService = accountService;
-            _accountTypeService = accountTypeService;
-            _dispositionService = dispositionService;
             _jwtHelper = jwtHelper;
             _adminService = adminService;
-            _context = context;
-            _passwordService = passwordService;
         }
 
         [AllowAnonymous, HttpGet("AdminLogin")]

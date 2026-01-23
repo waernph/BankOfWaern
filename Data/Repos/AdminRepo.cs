@@ -1,5 +1,4 @@
-﻿using Bank_of_Waern.Core.Interfaces;
-using Bank_of_Waern.Data.Entities;
+﻿using Bank_of_Waern.Data.Entities;
 using Bank_of_Waern.Data.Interfaces;
 
 namespace Bank_of_Waern.Data.Repos

@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Bank_of_Waern.Data.Entities;
+﻿namespace Bank_of_Waern.Data.Entities;
 
 public partial class BankAppDataContext : DbContext
 {

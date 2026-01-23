@@ -1,9 +1,5 @@
 using Bank_of_Waern.Data;
 using Bank_of_Waern.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var connString = builder.Configuration["connString"]; //Secret key för connection string
