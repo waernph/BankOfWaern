@@ -29,7 +29,7 @@ builder.Services.AddAuthentication(opt =>
     });
 
 builder.Services.AddControllers();
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpContextAccessor(); //Lägger till HttpContextAccessor för att kunna använda HttpContext i services
 builder.Services.AddScoped(); //Extension method för att lägga till alla AddScoped
 builder.Services.AddSwaggerGenSetup(); //Extension method för att lägga till SwaggerGen
 
@@ -44,6 +44,9 @@ app.UseEndpoints(endpoints =>
 {
     _ = endpoints.MapControllers();
 });
-app.UseSwagger();
-app.UseSwaggerUI(opt => opt.EnableTryItOutByDefault());
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(opt => opt.EnableTryItOutByDefault());
+}
 app.Run();
